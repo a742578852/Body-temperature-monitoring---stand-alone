@@ -2,10 +2,10 @@
 	<view>
 		<!--文字-->
 		<view>
-		<view style="text-align: center;margin-top: 40rpx;">
+		<view style="text-align: center;margin-top: 40upx;">
 			<text style="font-size: 50upx;">{{search}}</text>
 		</view>
-		<view style="text-align: center;margin-top: 20rpx;">
+		<view style="text-align: center;margin-top: 20upx;">
 			<text style="">{{remind}}</text>
 		</view>
 		</view>
@@ -37,9 +37,12 @@
 			<!--提醒弹出框-->
 			<view>
 					<u-popup v-model="popubShow" mode = "bottom" height = "auto" border-radius = "15">
-						<view>出淤泥而不染，濯清涟而不妖</view>
-						<view>出淤泥而不染，濯清涟而不妖</view>
-						<view>出淤泥而不染，濯清涟而不妖</view>
+						<view style="text-align: center;font-size: 35upx;margin-top: 30upx;">{{remindeon}}</view>
+						<view style="font-size: 32upx;margin-top: 30upx;color: #8799A3;text-align: center;">{{remindeon_one}}</view>
+						<view style="margin-top: 30upx;">
+							<button @click="popubShow = false">{{bu_cancel}}</button>
+							<button >{{bu_set}}</button>
+						</view>
 					</u-popup>
 					
 				</view>
@@ -54,30 +57,44 @@
 				search:'',
 				binding:'',
 				remind:'',
-				popubShow:true
+				remindeon:'',
+				remindeon_one:'',
+				bu_cancel:'',
+				bu_set:'',
+				popubShow:false
 			}
 		},
 		methods: {
-			
+			cancel(){
+				
+			},
+			//判断蓝牙是否打开
+			bluetoothIsOpen(){
+				//蓝牙搜索
+				uni.openBluetoothAdapter({
+					complete(res) {
+						console.log(res.errCode)
+						//蓝牙未打开 提示用户打开
+						if(res.errCode == 10001){
+							this.popubShow = true
+						}
+					
+					},
+					
+				})
+			}
 		},
 		onShow() {
 			//判断中英文
 			this.search = "正在搜索";
 			this.binding = "暂不绑定"
 			this.remind = "请将体温计贴近手机"
+			this.remindeon = "请开启蓝牙服务"
+			this.remindeon_one = "开启后即可搜索和连接设备"
+			this.bu_cancel = "取消"
+			this.bu_set = "去设置"
 			
-			//蓝牙搜索
-			uni.openBluetoothAdapter({
-				complete(res) {
-					//蓝牙未打开 提示用户打开
-					if(res.errCode == 10001){
-						
-						
-					}
-					console.log();
-				},
-				
-			})
+			this.bluetoothIsOpen()
 		}
 	}
 	
