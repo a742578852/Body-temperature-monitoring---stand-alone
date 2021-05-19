@@ -31,6 +31,24 @@
             }
             
         }
+        ,{
+            "path" : "pages/about/server",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "服务协议",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/about/privacy",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "隐私服务",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
