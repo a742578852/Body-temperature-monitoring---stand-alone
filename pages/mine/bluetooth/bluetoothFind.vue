@@ -1,0 +1,199 @@
+<template>
+	<view>
+		<!--文字-->
+		<view>
+		<view style="text-align: center;margin-top: 40rpx;">
+			<text style="font-size: 50upx;">{{search}}</text>
+		</view>
+		<view style="text-align: center;margin-top: 20rpx;">
+			<text style="">{{remind}}</text>
+		</view>
+		</view>
+		<!--波浪特效-->
+		<div class="container">
+				<div class="wave ripple danger">
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="content">
+						<i class="fa fa-bell"></i>
+					</div>
+				</div>
+				<view style="position: relative ;top:-400upx;right: -180upx;">
+					<image src="../../../static/tiwenji.png" style="width: 120upx;height: 270upx;"></image>
+				</view>
+		 
+			</div>
+			
+			<view>
+				
+			</view>
+			
+			<!--按钮-->
+			<view>
+				<u-button shape="circle" size="default" style="color: #F37B1D;width: 500upx;">{{binding}}</u-button>
+			</view>
+			
+			<!--提醒弹出框-->
+			<view>
+					<u-popup v-model="popubShow" mode = "bottom" height = "auto" border-radius = "15">
+						<view>出淤泥而不染，濯清涟而不妖</view>
+						<view>出淤泥而不染，濯清涟而不妖</view>
+						<view>出淤泥而不染，濯清涟而不妖</view>
+					</u-popup>
+					
+				</view>
+
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				search:'',
+				binding:'',
+				remind:'',
+				popubShow:true
+			}
+		},
+		methods: {
+			
+		},
+		onShow() {
+			//判断中英文
+			this.search = "正在搜索";
+			this.binding = "暂不绑定"
+			this.remind = "请将体温计贴近手机"
+			
+			//蓝牙搜索
+			uni.openBluetoothAdapter({
+				complete(res) {
+					//蓝牙未打开 提示用户打开
+					if(res.errCode == 10001){
+						
+						
+					}
+					console.log();
+				},
+				
+			})
+		}
+	}
+	
+</script>
+
+
+<style>
+	body {
+				margin: 0;
+			}
+	 
+	        .container {  
+	            position: relative;
+	            top: 80upx;
+	            left: 20%;
+	            width: 40%;  
+	            height: 40%;
+	        } 
+	 
+	        .spliter {
+				width: 100%;
+				height: 20px;
+			}
+	 
+			/************以下为具体实现************/
+	 
+			.wave {
+				position: relative;
+			    width: 200px;
+			    height: 200px;
+			    text-align: center;
+			    line-height: 100px;
+			    font-size: 28px;
+			}
+	 
+			.wave .circle {
+			    position: absolute;
+			    border-radius: 50%;
+			    opacity: 0;
+				
+			}
+	 
+			/* 波纹效果 */
+			.wave.ripple .circle {
+			    width: calc(100% - 6px); /* 减去边框的大小 */
+	    		height: calc(100% - 6px);/* 减去边框的大小 */
+			    border: 2px solid #2986ff;
+			}
+	 
+			.wave.ripple .circle:first-child {
+				animation: circle-opacity 2s infinite;
+			}
+	 
+			.wave.ripple .circle:nth-child(2) {
+				animation: circle-opacity 2s infinite;
+				animation-delay: .3s;
+			}
+	 
+			.wave.ripple .circle:nth-child(3) {
+			 	animation: circle-opacity 2s infinite;
+				animation-delay: .6s;
+			}
+	 
+			.wave.ripple.danger {
+			    color: blule;
+			}
+	 
+			.wave.ripple.danger .circle {
+				border-color: blule;
+			}
+	 
+			.wave.ripple.warning {
+			    color: orange;
+			}
+	 
+			.wave.ripple.warning .circle {
+			    border-color: orange;
+			}
+	 
+			/* 波动效果 */
+			.wave.solid .circle{
+				width: 100%;
+	    		height: 100%;
+			    background: #fff;
+			}
+	 
+			.wave.solid .circle:first-child {
+				animation: circle-opacity 2s infinite;
+			}
+	 
+			.wave.solid.danger {
+				color: red;
+			}
+	 
+			.wave.solid.danger .circle{
+				background: red;
+			}
+			
+			.wave.solid.warning {
+				color: orange;
+			}
+	 
+			.wave.solid.warning .circle{
+				background: orange;
+			}
+	 
+			@keyframes circle-opacity{
+			    from {
+			        opacity: 1;
+			        transform: scale(0);
+			    }
+			    to {
+			        opacity: 0;
+			        transform: scale(1);
+			    }
+			}
+
+
+</style>
