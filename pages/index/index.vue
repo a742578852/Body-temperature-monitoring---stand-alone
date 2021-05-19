@@ -1,8 +1,9 @@
 <template>
 	<view >
 		<cg-swiper :swiperList="swiperList" @clickItem="clickItem"></cg-swiper>
-		<view style="width: 50%;margin-left: 25%;margin-bottom: 20upx;">
-			<image src="../../static/logo.png" style="height: 400upx;border-radius: 200upx;"></image>
+		<u-input v-model="value" maxlength='20' type="textarea" border height="100"  />
+		<view class="start">
+			<text >开始检测</text>
 		</view>
 	</view>
 </template>
@@ -15,6 +16,7 @@
 		},
 		data() {
 			return {
+				value:'',
 				swiperList: [
 					{
 						index:0,
@@ -109,5 +111,16 @@
 </script>
 
 <style>
-
+	.start {
+		width: 200upx;
+		margin-left: 36%;
+		margin-top: 50upx;
+		height: 200upx;
+		border: 1upx solid #000000;
+		border-radius: 100upx;
+		text-align: center;
+		line-height: 200upx;
+		background-color: #ff0000;
+		color: #007AFF;
+	}
 </style>
