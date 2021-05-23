@@ -1,7 +1,7 @@
 <template>
 	<view >
 		<cg-swiper :swiperList="swiperList" @clickItem="clickItem"></cg-swiper>
-		<u-input v-model="value" maxlength='20' type="textarea" border height="100"  />
+		<u-input v-model="value" maxlength='40' type="textarea" border height="100"  placeholder='备注:'/>
 		<view class="start">
 			<text >开始检测</text>
 		</view>
@@ -20,83 +20,83 @@
 				swiperList: [
 					{
 						index:0,
-						text: '卧',
-						img: '../../static/logo.png'
+						text: '早上醒来',
+						img: '../../static/img/早上醒来.png'
 					},
 					{
 						index:1,
-						text: '坐',
-						img: '../../static/logo.png'
+						text: '便后',
+						img: '../../static/img/便后.png'
 					},
 					{
 						index:2,
-						text: '走',
-						img: '../../static/logo.png'
+						text: '口苦',
+						img: '../../static/img/口苦.png'
 					},
 					{
 						index:3,
 						text: '跑',
-						img: '../../static/logo.png'
+						img: '../../static/img/跑.png'
 					},
 					{
 						index:4,
-						text: '上肢运动',
-						img: '../../static/logo.png'
+						text: '走',
+						img: '../../static/img/走.png'
 					},
 					{
 						index:5,
-						text: '上下肢运动',
-						img: '../../static/logo.png'
+						text: '卧',
+						img: '../../static/img/卧.png'
 					},
 					{
 						index:6,
-						text: '吃',
-						img: '../../static/logo.png'
+						text: '坐',
+						img: '../../static/img/坐.png'
 					},
 					{
 						index:7,
-						text: '写',
-						img: '../../static/logo.png'
+						text: '上肢运动',
+						img: '../../static/img/上肢运动.png'
 					},
 					{
 						index:8,
-						text: '跑',
-						img: '../../static/logo.png'
+						text: '上下肢运动',
+						img: '../../static/img/上下肢运动.png'
 					},
 					{
 						index:9,
-						text: '早上醒来',
-						img: '../../static/logo.png'
+						text: '讲',
+						img: '../../static/img/讲.png'
 					},
 					{
 						index:10,
-						text: '忧愁',
-						img: '../../static/logo.png'
+						text: '写',
+						img: '../../static/img/写.png'
 					},
 					{
 						index:11,
-						text: '口苦',
-						img: '../../static/logo.png'
+						text: '听,看',
+						img: '../../static/img/听看.png'
 					},
 					{
 						index:12,
-						text: '喜悦',
-						img: '../../static/logo.png'
+						text: '吃',
+						img: '../../static/img/吃.png'
 					},
 					{
 						index:13,
 						text: '疲劳',
-						img: '../../static/logo.png'
+						img: '../../static/img/疲劳.png'
 					},
 					{
 						index:14,
-						text: '听,看',
-						img: '../../static/logo.png'
+						text: '忧愁',
+						img: '../../static/img/忧愁.png'
 					},
 					{
 						index:15,
-						text: '便后',
-						img: '../../static/logo.png'
+						text: '喜悦',
+						img: '../../static/img/兴奋.png'
 					}
 					
 				]

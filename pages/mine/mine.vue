@@ -5,11 +5,11 @@
 			<text>张三</text>
 			<view class="div2">
 				<view class="div3">
-					<image class="img" src="../../static/nick.png"></image>
+					<image class="img" src="../../static/img/实时.png"></image>
 					<text>实时数据</text>
 				</view>
 				<view class="div4">
-					<image class="img" src="../../static/nick.png"></image>
+					<image class="img" src="../../static/img/历史.png"></image>
 					<text>历史数据</text>
 				</view>
 			</view>
@@ -28,36 +28,43 @@
 		<view class="div6">
 			<view class="cu-form-group">
 				<view class="title">采集频率:</view>
-				<input  name="input" v-model="cjpl">s</input>
+				<picker @change="bindPickerChange" :value="index" :range="arrayCjpl" class="item2" style="width: 100%;">
+					<view class="uni-input" style="width: 100%;">{{arrayCjpl[index]}} s</view>
+				</picker>
 				<u-icon name="arrow-right"></u-icon>
 			</view>
+			
 			<view class="cu-form-group">
 				<view class="title">温度校准:</view>
 				<u-icon name="arrow-right"></u-icon>
 			</view>
 			<view class="cu-form-group">
 				<view class="title">温度单位:</view>
-				<input  name="input" v-model="wddw"></input>
+				<picker @change="bindPickerChange1" :value="index1" :range="arrayWddw" class="" style="width: 100%;">
+					<view class="uni-input" >{{arrayWddw[index1]}}</view>
+				</picker>
 				<u-icon name="arrow-right"></u-icon>
 			</view>
 			<view class="cu-form-group">
 				<view class="title">体重单位:</view>
 				<input  name="input" v-model="tzdw"></input>
-				<u-icon name="arrow-right"></u-icon>
 			</view>
 			<view class="cu-form-group">
 				<view class="title">身高单位:</view>
 				<input  name="input" v-model="sgdw"></input>
-				<u-icon name="arrow-right"></u-icon>
 			</view>
 			<view class="cu-form-group">
 				<view class="title">日历转换:</view>
-				<input  name="input" v-model="rlzh"></input>
+				<picker @change="bindPickerChange2" :value="index2" :range="arrayRl" class="" style="width: 100%;">
+					<view class="uni-input" >{{arrayRl[index2]}}</view>
+				</picker>
 				<u-icon name="arrow-right"></u-icon>
 			</view>
 			<view class="cu-form-group">
 				<view class="title">语言转换:</view>
-				<input  name="input" v-model="yyzh"></input>
+				<picker @change="bindPickerChange3" :value="index3" :range="arrayYy" class="" style="width: 100%;">
+					<view class="uni-input" >{{arrayYy[index3]}}</view>
+				</picker>
 				<u-icon name="arrow-right"></u-icon>
 			</view>
 		</view>
@@ -74,11 +81,34 @@
 				tzdw:'kg',
 				sgdw:'cm',
 				rlzh:'阳历',
-				yyzh:'中文'
+				yyzh:'中文',
+				index:0,
+				index1:0,
+				index2:0,
+				index3:0,
+				arrayCjpl:['500','600'],
+				arrayWddw:['摄氏度','华氏度'],
+				arrayRl:['阳历','阴历'],
+				arrayYy:['中文','English']
 			}
 		},
 		methods: {
-			
+			bindPickerChange(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value)
+				this.index = e.target.value
+			},
+			bindPickerChange1(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value)
+				this.index1 = e.target.value
+			},
+			bindPickerChange2(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value)
+				this.index2 = e.target.value
+			},
+			bindPickerChange3(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value)
+				this.index3 = e.target.value
+			},
 		}
 	}
 </script>
@@ -145,6 +175,9 @@
 				margin-top: 5upx;
 				border-radius: 30upx;
 				input {
+					margin-left: 300upx;
+				}
+				.uni-input {
 					margin-left: 300upx;
 				}
 			}

@@ -6,22 +6,12 @@
 		>
 			<swiper-item style="width: 100%;height: 360upx;">
 				<view class="swiper-item" >
-					<view class="swiper-item-view" v-for="(item, index) in swiperList" :key="index" v-if="index < 20" @click="clickItem(item)">
+					<view class="swiper-item-view" v-for="(item, index) in swiperList" :key="index" @click="clickItem(item)" :class="{changeColor:index==0}">
 						<image class="swiper-img" :src="item.img" ></image>
-						<text>{{ item.text }}</text>
+						<text >{{ item.text }}</text>
 					</view>
 				</view>
 			</swiper-item>
-			<!-- <block v-if="swiperList.length > 20">
-				<swiper-item style="width: 100%;height: 360upx;">
-					<view class="swiper-item">
-						<view class="swiper-item-view" v-for="(item, index) in swiperList" :key="index" v-if="index > 19 && index < 30" @click="clickItem(item.item)">
-							<image class="swiper-img" :src="item.img"></image>
-							<text>{{ item.text }}</text>
-						</view>
-					</view>
-				</swiper-item>
-			</block> -->
 		</swiper>
 		</view>
 	</view>
@@ -42,7 +32,8 @@ export default {
 	},
 	data() {
 		return {
-			swiperCurrent: 0
+			swiperCurrent: 0,
+			color:''
 		};
 	},
 	methods: {
@@ -58,6 +49,9 @@ export default {
 </script>
 
 <style>
+	.changeColor {
+		background-color: #ffcd93;
+	}
 .swiper {
 	margin-top: 10px;
 	width: 100%;
@@ -75,6 +69,7 @@ export default {
 	align-items: center;
 	width: 25%;
 	height: 170upx;
+	
 }
 .swiper-img {
 	width: 100upx;

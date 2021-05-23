@@ -43,6 +43,24 @@
             }
             
         }
+        ,{
+            "path" : "pages/index/indexs",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "体温监测",
+                "enablePullDownRefresh": false
+            }
+            
+        },
+		{
+		    "path" : "pages/personal-data/personal-data",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "个人资料",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

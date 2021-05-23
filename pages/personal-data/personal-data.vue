@@ -12,7 +12,9 @@
 		</view>
 		<view class="cu-form-group">
 			<view class="title">性别:</view>
-			<input  name="input" v-model="sex" ></input>
+			<picker @change="bindPickerChange" :value="index" :range="arraySex" class="" style="width: 100%;">
+				<view class="uni-input" style="width: 100%;">{{arraySex[index]}}</view>
+			</picker>
 			<u-icon name="arrow-right"></u-icon>
 		</view>
 		<view class="cu-form-group">
@@ -87,6 +89,8 @@
 	export default {
 		data() {
 			return {
+				index:0,
+				arraySex:['男','女'],
 				name:'张三',
 				sex:'男',
 				age:'18',
@@ -107,13 +111,19 @@
 			radioChange(e) {
 				 console.log(e);
 			},
-			
+			bindPickerChange(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value)
+				this.index = e.target.value
+			},
 		}
 	}
 </script>
 
 <style>
 	input {
+		margin-left: 400upx;
+	}
+	.uni-input {
 		margin-left: 400upx;
 	}
 </style>
