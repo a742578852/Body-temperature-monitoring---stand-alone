@@ -2,8 +2,8 @@
 	<view >
 		<cg-swiper :swiperList="swiperList" @clickItem="clickItem"></cg-swiper>
 		<u-input v-model="value" maxlength='40' type="textarea" border height="100"  placeholder='备注:'/>
-		<view class="start">
-			<text >开始检测</text>
+		<view class="start" @click="back">
+			<text >返回检测</text>
 		</view>
 	</view>
 </template>
@@ -16,6 +16,7 @@
 		},
 		data() {
 			return {
+				index:'',
 				value:'',
 				swiperList: [
 					{
@@ -104,8 +105,15 @@
 		},
 		methods: {
 			clickItem(item) {
-				console.log(item.index);
+				this.index = item.index
+			},
+			back(){
+				uni.setStorageSync('index',this.index)
+				uni.navigateTo({
+					url:'./indexs'
+				})
 			}
+			
 		}
 	}
 </script>

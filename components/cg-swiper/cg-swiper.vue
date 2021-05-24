@@ -6,9 +6,9 @@
 		>
 			<swiper-item style="width: 100%;height: 360upx;">
 				<view class="swiper-item" >
-					<view class="swiper-item-view" v-for="(item, index) in swiperList" :key="index" @click="clickItem(item)" :class="{changeColor:index==0}">
+					<view class="swiper-item-view" v-for="(item, index) in swiperList" :key="index" @click="clickItem(item)" :class="{changeColor:index==0, changeColor1: index==current}">
 						<image class="swiper-img" :src="item.img" ></image>
-						<text >{{ item.text }}</text>
+						<text style="font-weight: 800;font-size: 37upx;">{{ item.text }}</text>
 					</view>
 				</view>
 			</swiper-item>
@@ -33,7 +33,8 @@ export default {
 	data() {
 		return {
 			swiperCurrent: 0,
-			color:''
+			color:'',
+			current:0
 		};
 	},
 	methods: {
@@ -42,6 +43,7 @@ export default {
 		},
 
 		clickItem(item) {
+			this.current = item.index
 			this.$emit('clickItem', item);
 		}
 	}
@@ -50,12 +52,15 @@ export default {
 
 <style>
 	.changeColor {
-		background-color: #ffcd93;
+		background-color: #fffcc9;
+	}
+	.changeColor1 {
+		background-color: #aaffff;
 	}
 .swiper {
 	margin-top: 10px;
 	width: 100%;
-	height: 700upx;
+	height: 750upx;
 	padding-top: 20upx;
 }
 .swiper-item {
@@ -63,6 +68,7 @@ export default {
 	flex-wrap: wrap;
 }
 .swiper-item-view {
+	margin-bottom: 10upx;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
