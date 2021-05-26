@@ -24,19 +24,28 @@
 			</view>
 
 		</div>
+		<!--可用设备-->
+		<view style="margin-bottom: 50rpx;margin-left: 25rpx;font-size: 45rpx;">
+			{{keyong}}
+
+		</view>
+		<!--连接loding-->
+		<view>
+			<u-toast ref="uToast" />
+		</view>
 
 		<!--设备列表-->
 		<view style="margin-bottom: 60rpx;margin-left: 25rpx;margin-right: 25rpx;">
-			<view v-for="(item,i) in bleList" style="width: 100%;height: 160rpx;background-color: #DDDDDD;border-radius: 25rpx;">
-				<view style="text-align: center;margin-top: 30rpx;color: #000000;font-size: 60rpx;padding-top: 36rpx;">
+			<u-button @click="onLink(item)" v-for="(item,i) in bleList" style="margin-bottom: 25rpx;" shape="circle"
+				:ripple="true" ripple-bg-color="#99ddff">
 				{{item.name}}
-				</view>
-			</view>
+			</u-button>
 		</view>
 
 		<!--按钮-->
 		<view>
-			<u-button  @click="bluetoothIsOpen()" shape="circle" size="default" style="color: #F37B1D;width: 500upx;margin-bottom: 50rpx;">
+			<u-button @click="bluetoothIsOpen()" shape="circle" size="default"
+				style="color: #F37B1D;width: 500upx;margin-bottom: 30rpx;">
 				{{binding}}
 			</u-button>
 		</view>
@@ -71,13 +80,74 @@
 				remindeon_one: '',
 				bu_cancel: '',
 				bu_set: '',
+				keyong: '',
 				popubShow: false,
-				bleList:[],//蓝牙设备列表
+				linkShow: false,
+				linkLoding: '正在连接',
+				link_la: '正在连接',
+				bleList: [], //蓝牙设备列表
+				blelink: {}, //已连接的蓝牙设备
+				toast_info: {}
 			}
 		},
 		methods: {
+			showToast(toast_info) {
+				this.$refs.uToast.show({
+					title: toast_info.title,
+					type: toast_info.type,
+					url: toast_info.url
+				})
+			},
+			//连接蓝牙
+			onLink(item) {
+				var _this = this
 
+				//判断当前设备是否已经连接
+				if (item.deviceId == _this.blelink.deviceId && _this.blelink.connected == true) {
 
+					//弹窗提醒已连接
+					_this.toast_info = {
+						'title': '当前设备已连接',
+						'type': 'success'
+					}
+					_this.showToast(_this.toast_info)
+					return
+				}
+
+				//连接低功耗蓝牙设备
+				uni.createBLEConnection({
+					deviceId: item.deviceId,
+					timeout: 60000,
+					//成功
+					success() {
+						//连接成功,将当前设备信息存入缓存
+						uni.setStorage({
+							key: 'link_ble_info',
+							data: item,
+
+						})
+						_this.toast_info = {
+							'title': '连接成功',
+							'type': 'success',
+							'url': '/pages/mine/mine'
+						}
+						_this.showToast(_this.toast_info)
+					
+					},
+					//失败
+					fail() {
+						_this.toast_info = {
+							'title': '连接失败',
+							'type': 'success',
+
+						}
+						_this.showToast(_this.toast_info)
+					}
+
+				})
+				//连接成功 关闭搜索
+				_this.stopBluetoothDevicesDiscovery()
+			},
 			//跳转到手机设置页
 			cancel() {
 				var main = plus.android.runtimeMainActivity();
@@ -90,22 +160,22 @@
 				//在页面显示的时候判断是都已经初始化完成蓝牙适配器若成功，则开始查找设备
 				let self = this;
 				setTimeout(function() {
-					
-						console.log("开始搜寻智能设备");
-						uni.startBluetoothDevicesDiscovery({
-							success: res => {
-								self.onBluetoothDeviceFound();
-							},
-							fail: res => {
-								console.log("查找设备失败!");
-								uni.showToast({
-									icon: "none",
-									title: "查找设备失败！",
-									duration: 3000
-								})
-							}
-						});
-					
+
+					console.log("开始搜寻智能设备");
+					uni.startBluetoothDevicesDiscovery({
+						success: res => {
+							self.onBluetoothDeviceFound();
+						},
+						fail: res => {
+							console.log("查找设备失败!");
+							uni.showToast({
+								icon: "none",
+								title: "查找设备失败！",
+								duration: 3000
+							})
+						}
+					});
+
 				}, 300);
 			},
 			/**
@@ -136,25 +206,57 @@
 			 * 获取在蓝牙模块生效期间所有已发现的蓝牙设备。包括已经和本机处于连接状态的设备。
 			 */
 			getBluetoothDevices() {
+				//16进制转码
+				function ab2hex(buffer) {
+					const hexArr = Array.prototype.map.call(
+						new Uint8Array(buffer),
+						function(bit) {
+							return ('00' + bit.toString(16)).slice(-2)
+						}
+					)
+					return hexArr.join('')
+				}
+
 				var _this = this
 				console.log("获取蓝牙设备");
 				uni.getBluetoothDevices({
 					success: res => {
 						console.log('获取蓝牙设备成功:' + res.errMsg);
 						console.log(res)
-						_this.bleList = res.devices
-						console.log('数据是是'+_this.bleList.get(0).name);
+						// res.devices.forEach(item => {
+						// 	console.log('aaa'+item.name);
+						// 	if(item.name != null && item.name.trim() != ''){
+						// 		_this.bleList.push()
+						// 		console.log('11111111111111'+_this.bleList)
+						// 		 //const c = new Map();
+						// 		//_this.bleList.filter((_this.bleList) => !c.has(_this.bleList.value) && c.set(_this.bleList.value, 1));
+						// 	} 
+						// })
+						_this.bleList = []
+						var newList = res.devices
+						newList.forEach(item => {
+							//判断是否是体温计设备
+							if (((ab2hex(item.advertisData)) == 'FFFF464C2D344E5443'.toLowerCase())) {
+								_this.bleList.push(item)
+							}
+
+						})
+
 					}
 				});
+
+
 			},
+
+
 			//连接蓝牙设备
-			
+
 
 		},
 
 		onShow() {
 			var _this = this
-		
+
 
 			//判断中英文
 			this.search = "正在搜索";
@@ -164,6 +266,7 @@
 			this.remindeon_one = "开启后即可搜索和连接设备"
 			this.bu_cancel = "取消"
 			this.bu_set = "去设置"
+			this.keyong = '可用设备:'
 
 			//蓝牙设置
 
@@ -181,14 +284,21 @@
 				}
 
 			})
-		//蓝牙状态监听
-		uni.onBluetoothAdapterStateChange(function(res) {
-			if (res.available == true) {
-				_this.popubShow = false
-			} else {
-				_this.popubShow = true
-			}
-		})
+			//蓝牙开关状态监听
+			uni.onBluetoothAdapterStateChange(function(res) {
+				if (res.available == true) {
+					_this.popubShow = false
+				} else {
+					_this.popubShow = true
+				}
+			})
+
+			//蓝牙连接状态监听
+			uni.onBLEConnectionStateChange(function(res) {
+				_this.blelink = res
+				// 该方法回调中可以用于处理连接意外断开等异常情况
+				console.log('蓝牙:' + res.deviceId + '连接状态:' + res.connected)
+			})
 
 		},
 
