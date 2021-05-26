@@ -2,7 +2,7 @@
 	<view class="id">
 		<view class="info">
 			<view class="" style="display: flex;align-items: center;">
-				当前状态：<image :src="imgUrl" style="width: 100upx;height: 80upx;"></image>
+				当前状态：<image :src="imgUrl" style="width: 80upx;height: 80upx;margin-right: 10upx;"></image>
 			</view>
 			<view class="">采集时间：{{cjsj}}</view>
 		</view>
@@ -10,7 +10,12 @@
 		<view class="tj">
 			<qiun-data-charts type="line" :chartData="chartData1" />
 		</view>
-		<text style="margin-top: 20upx;margin-left: 300upx;">单位：摄氏度</text>
+		<view class="" style="display: flex;justify-content: space-between;width: 70%;">
+			<view class=""><text style="">湿度：{{sd}}</text></view>
+			<view class=""><text style="">单位：{{wddw}}</text></view>
+			
+		</view>
+		
 		<view class="temp">
 			<!-- <view class="div5" >
 				<view class="div1">
@@ -54,10 +59,7 @@
 			</view> -->
 			<qiun-data-charts type="line" :chartData="chartData2" />
 		</view>
-		<view class="btn" style="width: 70%; display: flex;justify-content: space-between;">
-			<view class="start" @click="jsjc">
-				<text >结束检测</text>
-			</view>
+		<view class="btn" >
 			<view class="start" @click="xzms">
 				<text >选择模式</text>
 			</view>
@@ -73,12 +75,14 @@
 				index:'',
 				imgUrl:'',
 				cjsj:'',
+				wddw:'摄氏度',
+				sd:'59',
 				chartData1:{
 					
-				  categories: ["300", "400", "500", "600", "700", "800"],
+				  categories: ["", "", "", "", "", "", "", "", "", "", ""],
 				  series: [{
 				    name: "左腋下",
-				    data: [35, 36, 31, 33, 13, 34]
+				    data: [35, 36, 31, 33, 13, 34,35, 36, 31, 33, 13, 34]
 				  }, {
 				    name: "左体表",
 				    data: [18, 25, 21, 27, 6, 28]
@@ -106,15 +110,48 @@
 			}
 		},
 		methods: {
-			jsjc(){
-				uni.switchTab({
+			xzms(){
+				uni.navigateTo({
 					url:'./index'
 				})
 			},
-			xzms(){
-				uni.switchTab({
-					url:'./index'
-				})
+			
+		},
+		onShow() {
+			this.wddw = uni.getStorageSync('wddw')
+			this.index = uni.getStorageSync('index')
+			if(this.index == 0){
+				this.imgUrl = '../../static/zaoshangxinglai.png'
+			}else if(this.index == 1){
+				this.imgUrl = '../../static/bianhou.png'
+			}else if(this.index == 2){
+				this.imgUrl = '../../static/kouku.png'
+			}else if(this.index == 3){
+				this.imgUrl = '../../static/pao.png'
+			}else if(this.index == 4){
+				this.imgUrl = '../../static/zou.png'
+			}else if(this.index == 5){
+				this.imgUrl = '../../static/wo.png'
+			}else if(this.index == 6){
+				this.imgUrl = '../../static/zuo.png'
+			}else if(this.index == 7){
+				this.imgUrl = '../../static/shangzhiyundong.png'
+			}else if(this.index == 8){
+				this.imgUrl = '../../static/shangxiazhiyundong.png'
+			}else if(this.index == 9){
+				this.imgUrl = '../../static/jiang.png'
+			}else if(this.index == 10){
+				this.imgUrl = '../../static/xie.png'
+			}else if(this.index == 11){
+				this.imgUrl = '../../static/tingkan.png'
+			}else if(this.index == 12){
+				this.imgUrl = '../../static/chi.png'
+			}else if(this.index == 13){
+				this.imgUrl = '../../static/pilao.png'
+			}else if(this.index == 14){
+				this.imgUrl = '../../static/youchou.png'
+			}else if(this.index == 15){
+				this.imgUrl = '../../static/xingfen.png'
 			}
 		},
 		onLoad:function() {
@@ -131,40 +168,7 @@
 			}
 			this.cjsj = year + '-' + month + '-' + day
 			
-			this.index = uni.getStorageSync('index')
-			if(this.index == 0){
-				this.imgUrl = '../../static/img/早上醒来.png'
-			}else if(this.index == 1){
-				this.imgUrl = '../../static/img/便后.png'
-			}else if(this.index == 2){
-				this.imgUrl = '../../static/img/口苦.png'
-			}else if(this.index == 3){
-				this.imgUrl = '../../static/img/跑.png'
-			}else if(this.index == 4){
-				this.imgUrl = '../../static/img/走.png'
-			}else if(this.index == 5){
-				this.imgUrl = '../../static/img/卧.png'
-			}else if(this.index == 6){
-				this.imgUrl = '../../static/img/坐.png'
-			}else if(this.index == 7){
-				this.imgUrl = '../../static/img/上肢运动.png'
-			}else if(this.index == 8){
-				this.imgUrl = '../../static/img/上下肢运动.png'
-			}else if(this.index == 9){
-				this.imgUrl = '../../static/img/讲.png'
-			}else if(this.index == 10){
-				this.imgUrl = '../../static/img/写.png'
-			}else if(this.index == 11){
-				this.imgUrl = '../../static/img/听看.png'
-			}else if(this.index == 12){
-				this.imgUrl = '../../static/img/吃.png'
-			}else if(this.index == 13){
-				this.imgUrl = '../../static/img/疲劳.png'
-			}else if(this.index == 14){
-				this.imgUrl = '../../static/img/忧愁.png'
-			}else if(this.index == 15){
-				this.imgUrl = '../../static/img/兴奋.png'
-			}
+			
 		}
 	}
 </script>

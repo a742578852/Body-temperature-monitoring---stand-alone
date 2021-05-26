@@ -4,9 +4,12 @@
 			<qiun-data-charts type="line" :chartData="chartData" />
 		</view>
 		<view class="btn">
-			<u-button type="primary">导出数据</u-button>
-			<u-button type="primary">删除数据</u-button>
+			<u-button type="primary" @click='show2 = true'>导出数据</u-button>
+			<u-button type="primary" @click='show1 = true'>清空数据</u-button>
 		</view>
+		
+		<u-modal v-model="show1" content="确认清空数据吗？" :mask-close-able="true" @confirm="confirm"></u-modal>
+		<u-calendar v-model="show2" mode="range" @change="change" ></u-calendar>
 		<view class="table">
 			<scroll-view scroll-x="true" class="scroll">
 				<view class="table1">
@@ -33,6 +36,8 @@
 	export default {
 		data() {
 			return {
+				show1:false,
+				show2:false,
 				chartData:{
 					
 				  categories: ["300", "400", "500", "600", "700", "800"],
@@ -66,7 +71,16 @@
 			}
 		},
 		methods: {
-			
+			confirm(){
+				//清空数据js
+				
+				this.show1 = false
+			},
+			change(e) {
+				console.log(e);
+				
+				
+			}
 		}
 	}
 </script>
@@ -108,7 +122,7 @@
 				display: flex;
 				
 				.table-data-item {
-					border: 1upx solid #3F536E;
+					border: 1upx solid #7cc0c1;
 					width: 30%;
 					text-align: center;
 				}
