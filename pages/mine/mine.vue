@@ -1,33 +1,34 @@
 <template>
 	<view class="id">
 		<view class="div1">
-			<image class="img" src="../../static/nick.png"></image>
+			<u-avatar class="img" :src="touxiang" @click="grzl"></u-avatar>
+			<!-- <image class="img" :src="touxiang" @click="grzl"></image> -->
 			<text>张三</text>
 			<view class="div2">
-				<view class="div3">
-					<image class="img" src="../../static/img/实时.png"></image>
-					<text>实时数据</text>
+				<view class="div3" @click="shishi">
+					<image class="img" src="../../static/shishi.png"></image>
+					<text>{{sssj}}</text>
 				</view>
-				<view class="div4">
-					<image class="img" src="../../static/img/历史.png"></image>
-					<text>历史数据</text>
+				<view class="div4" @click="lishi">
+					<image class="img" src="../../static/lishi.png"></image>
+					<text>{{lssj}}</text>
 				</view>
 			</view>
 		</view>
-		<text style="margin-top: 30upx;">我的设备</text>
+		<text style="margin-top: 30upx;">{{wdsb}}</text>
 		<view class="div5">
 			<view class="cu-form-group" >
-				<view class="title">一号体温计:</view>
-				<input  name="input" >电量 100%</input>
+				<view class="title">{{twj}}:</view>
+				<input  name="input" disabled="">{{dl}}  100%</input>
 			</view>
-			<view class="cu-form-group" >
-				<view class="title" style="padding-left: 35%;">+ 更换设备</view>
+			<view class="cu-form-group" @click="ghsb">
+				<view class="title" style="padding-left: 35%;">+ {{ghsbb}}</view>
 			</view>
 		</view>
-		<text style="margin-top: 30upx;">更多设置</text>
+		<text style="margin-top: 30upx;">{{gdsz}}</text>
 		<view class="div6">
 			<view class="cu-form-group">
-				<view class="title">采集频率:</view>
+				<view class="title">{{cjpl}}:</view>
 				<picker @change="bindPickerChange" :value="index" :range="arrayCjpl" class="item2" style="width: 100%;">
 					<view class="uni-input" style="width: 100%;">{{arrayCjpl[index]}} s</view>
 				</picker>
@@ -35,40 +36,46 @@
 			</view>
 			
 			<view class="cu-form-group">
-				<view class="title">温度校准:</view>
+				<view class="title">{{wdxz}}:</view>
 				<u-icon name="arrow-right"></u-icon>
 			</view>
 			<view class="cu-form-group">
-				<view class="title">温度单位:</view>
+				<view class="title">{{wddw}}:</view>
 				<picker @change="bindPickerChange1" :value="index1" :range="arrayWddw" class="" style="width: 100%;">
 					<view class="uni-input" >{{arrayWddw[index1]}}</view>
 				</picker>
 				<u-icon name="arrow-right"></u-icon>
 			</view>
 			<view class="cu-form-group">
-				<view class="title">体重单位:</view>
-				<input  name="input" v-model="tzdw"></input>
+				<view class="title">{{tzdw}}:</view>
+				<picker @change="bindPickerChange4" :value="index4" :range="arrayTzdw" class="" style="width: 100%;">
+					<view class="uni-input" >{{arrayTzdw[index4]}}</view>
+				</picker>
+				<u-icon name="arrow-right"></u-icon>
 			</view>
 			<view class="cu-form-group">
-				<view class="title">身高单位:</view>
+				<view class="title">{{sgdww}}:</view>
 				<input  name="input" v-model="sgdw"></input>
 			</view>
 			<view class="cu-form-group">
-				<view class="title">日历转换:</view>
+				<view class="title">{{rlzh}}:</view>
 				<picker @change="bindPickerChange2" :value="index2" :range="arrayRl" class="" style="width: 100%;">
 					<view class="uni-input" >{{arrayRl[index2]}}</view>
 				</picker>
 				<u-icon name="arrow-right"></u-icon>
 			</view>
 			<view class="cu-form-group">
-				<view class="title">语言转换:</view>
+				<view class="title">{{yyzh}}:</view>
 				<picker @change="bindPickerChange3" :value="index3" :range="arrayYy" class="" style="width: 100%;">
 					<view class="uni-input" >{{arrayYy[index3]}}</view>
 				</picker>
 				<u-icon name="arrow-right"></u-icon>
 			</view>
 		</view>
-		<text style="margin-top: 30upx; height: 60upx;">关于我们</text>
+		<view class="" style="margin-top: 30upx; height: 60upx;" @click="abouts()">
+			<text style="margin-top: 30upx; height: 60upx;" >{{gywm}}</text>
+		</view>
+		
 	</view>
 </template>
 
@@ -76,16 +83,29 @@
 	export default {
 		data() {
 			return {
-				cjpl:'500',
-				wddw:'摄氏度',
-				tzdw:'kg',
+				gywm:'关于我们',
+				sgdww:'身高单位',
+				wdxz:'温度校准',
+				gdsz:'更多设置',
+				sssj:'实时数据',
+				lssj:'历史数据',
+				wdsb:'我的设备',
+				dl:'电量',
+				twj:'体温计',
+				ghsbb:'更换设备',
+				touxiang:'',
+				cjpl:'采集频率',
+				wddw:'温度单位',
+				tzdw:'体重单位',
 				sgdw:'cm',
-				rlzh:'阳历',
-				yyzh:'中文',
+				rlzh:'日历转换',
+				yyzh:'语言转换',
 				index:0,
 				index1:0,
 				index2:0,
 				index3:0,
+				index4:0,
+				arrayTzdw:['千克','磅'],
 				arrayCjpl:['500','600'],
 				arrayWddw:['摄氏度','华氏度'],
 				arrayRl:['阳历','阴历'],
@@ -93,6 +113,11 @@
 			}
 		},
 		methods: {
+			abouts(){
+				uni.navigateTo({
+					url:'../about/about'
+				})
+			},
 			bindPickerChange(e) {
 				console.log('picker发送选择改变，携带值为', e.target.value)
 				this.index = e.target.value
@@ -100,6 +125,11 @@
 			bindPickerChange1(e) {
 				console.log('picker发送选择改变，携带值为', e.target.value)
 				this.index1 = e.target.value
+				if(this.index1==1){
+					uni.setStorageSync('wddw','华氏度')
+				}else{
+					uni.setStorageSync('wddw','摄氏度')
+				}
 			},
 			bindPickerChange2(e) {
 				console.log('picker发送选择改变，携带值为', e.target.value)
@@ -108,7 +138,56 @@
 			bindPickerChange3(e) {
 				console.log('picker发送选择改变，携带值为', e.target.value)
 				this.index3 = e.target.value
+				if(e.target.value==1){
+					this.gywm = 'About us'
+					this.yyzh = 'Language conversion'
+					this.rlzh = 'Calendar conversion'
+					this.sgdww = 'Height unit'
+					this.tzdw = 'Weight unit'
+					this.wddw = 'Temperature unit'
+					this.wdxz = 'Temperature calibration'
+					this.cjpl = 'Acquisition frequency'
+					this.gdsz = 'More settings'
+					this.sssj = 'real-time data'
+					this.lssj = 'historical data'
+					this.wdsb = 'My device'
+					this.twj = 'The thermometer'
+					this.dl = 'Quantity of electricity'
+					this.ghsbb = 'Replacement of equipment'
+				}
+				uni.setStorageSync('yyqh',e.target.value)
 			},
+			bindPickerChange4(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value)
+				this.index4 = e.target.value
+			},
+			ghsb(){
+				uni.navigateTo({
+					url:'./bluetooth/bluetoothFind'
+				})
+			},
+			grzl(){
+				uni.navigateTo({
+					url:'../personal-data/personal-data'
+				})
+			},
+			shishi(){
+				uni.switchTab({
+					url:'../index/indexs'
+				})
+			},
+			lishi(){
+				uni.navigateTo({
+					url:'../history/history'
+				})
+			},
+			
+		},
+		onLoad() {
+			
+		},
+		onShow() {
+			this.touxiang = uni.getStorageSync('touxiang')
 		}
 	}
 </script>
@@ -174,12 +253,12 @@
 				margin-left: 10upx;
 				margin-top: 5upx;
 				border-radius: 30upx;
-				input {
-					margin-left: 300upx;
-				}
-				.uni-input {
-					margin-left: 300upx;
-				}
+				// input {
+				// 	margin-left: 100upx;
+				// }
+				// .uni-input {
+				// 	margin-left: 100upx;
+				// }
 			}
 		}
 	}

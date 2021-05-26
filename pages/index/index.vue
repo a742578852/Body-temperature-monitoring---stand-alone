@@ -1,7 +1,7 @@
 <template>
 	<view >
 		<cg-swiper :swiperList="swiperList" @clickItem="clickItem"></cg-swiper>
-		<u-input v-model="value" maxlength='40' type="textarea" border height="100"  placeholder='备注:'/>
+		<u-input v-model="value" maxlength='40' type="textarea" border height="200"  placeholder='备注:'/>
 		<view class="start" @click="back">
 			<text >返回检测</text>
 		</view>
@@ -22,82 +22,82 @@
 					{
 						index:0,
 						text: '早上醒来',
-						img: '../../static/img/早上醒来.png'
+						img: '../../static/zaoshangxinglai.png'
 					},
 					{
 						index:1,
 						text: '便后',
-						img: '../../static/img/便后.png'
+						img: '../../static/bianhou.png'
 					},
 					{
 						index:2,
 						text: '口苦',
-						img: '../../static/img/口苦.png'
+						img: '../../static/kouku.png'
 					},
 					{
 						index:3,
 						text: '跑',
-						img: '../../static/img/跑.png'
+						img: '../../static/pao.png'
 					},
 					{
 						index:4,
 						text: '走',
-						img: '../../static/img/走.png'
+						img: '../../static/zou.png'
 					},
 					{
 						index:5,
 						text: '卧',
-						img: '../../static/img/卧.png'
+						img: '../../static/wo.png'
 					},
 					{
 						index:6,
 						text: '坐',
-						img: '../../static/img/坐.png'
+						img: '../../static/zuo.png'
 					},
 					{
 						index:7,
 						text: '上肢运动',
-						img: '../../static/img/上肢运动.png'
+						img: '../../static/shangzhiyundong.png'
 					},
 					{
 						index:8,
 						text: '上下肢运动',
-						img: '../../static/img/上下肢运动.png'
+						img: '../../static/shangxiazhiyundong.png'
 					},
 					{
 						index:9,
 						text: '讲',
-						img: '../../static/img/讲.png'
+						img: '../../static/jiang.png'
 					},
 					{
 						index:10,
 						text: '写',
-						img: '../../static/img/写.png'
+						img: '../../static/xie.png'
 					},
 					{
 						index:11,
 						text: '听,看',
-						img: '../../static/img/听看.png'
+						img: '../../static/tingkan.png'
 					},
 					{
 						index:12,
 						text: '吃',
-						img: '../../static/img/吃.png'
+						img: '../../static/chi.png'
 					},
 					{
 						index:13,
 						text: '疲劳',
-						img: '../../static/img/疲劳.png'
+						img: '../../static/pilao.png'
 					},
 					{
 						index:14,
 						text: '忧愁',
-						img: '../../static/img/忧愁.png'
+						img: '../../static/youchou.png'
 					},
 					{
 						index:15,
 						text: '喜悦',
-						img: '../../static/img/兴奋.png'
+						img: '../../static/xingfen.png'
 					}
 					
 				]
@@ -109,7 +109,7 @@
 			},
 			back(){
 				uni.setStorageSync('index',this.index)
-				uni.navigateTo({
+				uni.switchTab({
 					url:'./indexs'
 				})
 			}
