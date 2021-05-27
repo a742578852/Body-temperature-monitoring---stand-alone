@@ -11206,7 +11206,7 @@ var render = function() {
                 [_vm._v(_vm._$g(39, "t0-0") + ":")]
               ),
               _c("v-uni-input", {
-                attrs: { name: "input", _i: 40 },
+                attrs: { name: "input", disabled: "", _i: 40 },
                 model: {
                   value: _vm._$g(40, "v-model"),
                   callback: function($$v) {
