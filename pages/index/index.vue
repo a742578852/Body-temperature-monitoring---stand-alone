@@ -220,13 +220,13 @@
 		align-items: center;
 		// justify-content: space-between;
 		.start {
-			width: 300upx;
+			width: 210upx;
 			margin-top: 30upx;
-			height: 150upx;
+			height: 210upx;
 			border: 1upx solid #000000;
-			 border-radius: 50upx; 
+			 border-radius: 100upx; 
 			text-align: center;
-			line-height: 150upx;
+			line-height: 210upx;
 			background-color: #ff0000;
 			color: #ffffff;
 		}
