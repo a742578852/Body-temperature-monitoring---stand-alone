@@ -18,11 +18,11 @@
 		<text style="margin-top: 30upx;">{{wdsb}}</text>
 		<view class="div5">
 			<view class="cu-form-group" >
-				<view class="title">{{twj}}:</view>
+				<view class="title" style="width: 290upx;">{{twj}}:</view>
 				<input  name="input" disabled="">{{dl}}  100%</input>
 			</view>
 			<view class="cu-form-group" @click="ghsb">
-				<view class="title" style="padding-left: 35%;">+ {{ghsbb}}</view>
+				<view class="title" style="padding-left: 33%;">+ {{ghsbb}}</view>
 			</view>
 		</view>
 		<text style="margin-top: 30upx;">{{gdsz}}</text>
@@ -55,7 +55,7 @@
 			</view>
 			<view class="cu-form-group">
 				<view class="title">{{sgdww}}:</view>
-				<input  name="input" v-model="sgdw"></input>
+				<input  name="input" v-model="sgdw" disabled=""></input>
 			</view>
 			<view class="cu-form-group">
 				<view class="title">{{rlzh}}:</view>
@@ -108,7 +108,7 @@
 				arrayTzdw:['千克','磅'],
 				arrayCjpl:['500','600'],
 				arrayWddw:['摄氏度','华氏度'],
-				arrayRl:['阳历','阴历'],
+				arrayRl:['阳历','农历'],
 				arrayYy:['中文','English']
 			}
 		},
@@ -138,7 +138,11 @@
 			bindPickerChange3(e) {
 				console.log('picker发送选择改变，携带值为', e.target.value)
 				this.index3 = e.target.value
+				uni.setStorageSync('indexYy',this.index3)
 				if(e.target.value==1){
+					this.arrayRl = ['Solar calendar','lunar calendar']
+					this.arrayTzdw = ['kg','pound']
+					this.arrayWddw = ['centigrade','Fahrenheit degree']
 					this.gywm = 'About us'
 					this.yyzh = 'Language conversion'
 					this.rlzh = 'Calendar conversion'
@@ -154,6 +158,25 @@
 					this.twj = 'The thermometer'
 					this.dl = 'Quantity of electricity'
 					this.ghsbb = 'Replacement of equipment'
+				}else{
+					this.arrayRl = ['阳历','农历']
+					this.arrayWddw = ['摄氏度','华氏度']
+					this.arrayTzdw = ['千克','磅']
+					this.gywm = '关于我们'
+					this.yyzh = '语言转换'
+					this.rlzh = '日历转换'
+					this.sgdww = '身高单位'
+					this.tzdw = '体重单位'
+					this.wddw = '温度单位'
+					this.wdxz = '温度校准'
+					this.cjpl = '采集频率'
+					this.gdsz = '更多设置'
+					this.sssj = '实时数据'
+					this.lssj = '历史数据'
+					this.wdsb = '我的设备'
+					this.twj = '体温计'
+					this.dl = '电量'
+					this.ghsbb = '更换设备'
 				}
 				uni.setStorageSync('yyqh',e.target.value)
 			},

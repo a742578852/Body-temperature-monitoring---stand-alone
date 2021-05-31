@@ -8,7 +8,7 @@
 				<view class="swiper-item" >
 					<view class="swiper-item-view" v-for="(item, index) in swiperList" :key="index" @click="clickItem(item)" :class="{changeColor:index==0, changeColor1: index==current}">
 						<image class="swiper-img" :src="item.img" ></image>
-						<text style="font-weight: 800;font-size: 37upx;">{{ item.text }}</text>
+						<text style="font-weight: 800;font-size: 38upx;">{{ item.text }}</text>
 					</view>
 				</view>
 			</swiper-item>
@@ -60,7 +60,7 @@ export default {
 .swiper {
 	margin-top: 10px;
 	width: 100%;
-	height: 750upx;
+	height: 1370upx;
 	padding-top: 20upx;
 }
 .swiper-item {
@@ -73,13 +73,13 @@ export default {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 25%;
-	height: 170upx;
+	width: 33%;
+	height: 220upx;
 	
 }
 .swiper-img {
-	width: 100upx;
-	height: 100upx;
+	width: 110upx;
+	height: 120upx;
 }
 
 </style>
