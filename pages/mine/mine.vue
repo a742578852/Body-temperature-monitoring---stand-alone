@@ -1,5 +1,6 @@
 <template>
 	<view class="id">
+		
 		<view class="div1">
 			<u-avatar class="img" :src="touxiang" @click="grzl"></u-avatar>
 			<!-- <image class="img" :src="touxiang" @click="grzl"></image> -->
@@ -80,6 +81,8 @@
 </template>
 
 <script>
+	// import {calendar} from '../../util/calendar.js'
+	
 	export default {
 		data() {
 			return {
@@ -109,10 +112,16 @@
 				arrayCjpl:['500','600'],
 				arrayWddw:['摄氏度','华氏度'],
 				arrayRl:['阳历','农历'],
-				arrayYy:['中文','English']
+				arrayYy:['中文','English'],
+				nongLi:{},
+				
 			}
 		},
 		methods: {
+			daochu(){
+				
+			},
+			//跳转关于页面
 			abouts(){
 				uni.navigateTo({
 					url:'../about/about'
@@ -134,10 +143,13 @@
 			bindPickerChange2(e) {
 				console.log('picker发送选择改变，携带值为', e.target.value)
 				this.index2 = e.target.value
+				//把选择的阳历或阴历存入缓存 0：阳历，1：阴历
+				uni.setStorageSync('rlzh',this.index2)
 			},
 			bindPickerChange3(e) {
 				console.log('picker发送选择改变，携带值为', e.target.value)
 				this.index3 = e.target.value
+				//获取语言类型放在缓存
 				uni.setStorageSync('indexYy',this.index3)
 				if(e.target.value==1){
 					this.arrayRl = ['Solar calendar','lunar calendar']
@@ -184,26 +196,33 @@
 				console.log('picker发送选择改变，携带值为', e.target.value)
 				this.index4 = e.target.value
 			},
+			//更换设备
 			ghsb(){
 				uni.navigateTo({
 					url:'./bluetooth/bluetoothFind'
 				})
 			},
+			//个人资料
 			grzl(){
 				uni.navigateTo({
 					url:'../personal-data/personal-data'
 				})
 			},
+			//实时数据
 			shishi(){
 				uni.switchTab({
 					url:'../index/indexs'
 				})
 			},
+			//历史数据
 			lishi(){
 				uni.navigateTo({
 					url:'../history/history'
 				})
 			},
+			
+			
+			
 			
 		},
 		onLoad() {

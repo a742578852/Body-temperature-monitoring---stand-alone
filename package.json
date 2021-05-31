@@ -11,6 +11,12 @@
   "license": "ISC",
   "dependencies": {
     "echarts": "^5.1.1",
-    "uview-ui": "^1.8.4"
+    "file-saver": "^2.0.5",
+    "uview-ui": "^1.8.4",
+    "vue-json-excel": "^0.3.0",
+    "xlsx": "^0.17.0"
+  },
+  "devDependencies": {
+    "script-loader": "^0.7.2"
   }
 }

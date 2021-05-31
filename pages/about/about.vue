@@ -33,11 +33,13 @@
 			}
 		},
 		methods: {
+			//服务协议
 			serve(){
 				uni.navigateTo({
 					url:'./server'
 				})
 			},
+			//隐私协议
 			yinsi(){
 				uni.navigateTo({
 					url:'./privacy'
