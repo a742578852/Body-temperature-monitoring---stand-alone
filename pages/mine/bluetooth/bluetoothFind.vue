@@ -87,10 +87,21 @@
 				link_la: '正在连接',
 				bleList: [], //蓝牙设备列表
 				blelink: {}, //已连接的蓝牙设备
-				toast_info: {}
+				toast_info: {},
+				ble_info:''//蓝牙信息
 			}
 		},
 		methods: {
+			bluetoothIsOpen(){
+					//关闭蓝牙搜索
+					this.stopBluetoothDevicesDiscovery()
+					uni.switchTab({
+						url: '../mine'
+					})
+				
+				
+			},
+			
 			showToast(toast_info) {
 				this.$refs.uToast.show({
 					title: toast_info.title,
@@ -101,7 +112,7 @@
 			//连接蓝牙
 			onLink(item) {
 				var _this = this
-
+				
 				//判断当前设备是否已经连接
 				if (item.deviceId == _this.blelink.deviceId && _this.blelink.connected == true) {
 
@@ -114,10 +125,21 @@
 					return
 				}
 
+				//连接前关闭已连接的设备
+				if(_this.ble_info != null && _this.ble_info != ''){
+					uni.closeBLEConnection({
+						deviceId:_this.ble_info.deviceId,
+						success() {
+							console.log('蓝牙关闭成功');
+						}
+					})
+				}
+				
+				
 				//连接低功耗蓝牙设备
 				uni.createBLEConnection({
 					deviceId: item.deviceId,
-					timeout: 60000,
+					timeout: 6000,
 					//成功
 					success() {
 						//连接成功,将当前设备信息存入缓存
@@ -129,10 +151,20 @@
 						_this.toast_info = {
 							'title': '连接成功',
 							'type': 'success',
-							'url': '/pages/mine/mine'
+							'isTab': true,
+							'url': '../mine'
 						}
 						_this.showToast(_this.toast_info)
-					
+
+						setTimeout(() => {
+							uni.switchTab({
+								url: '../mine'
+							})
+						}, 800)
+
+
+
+
 					},
 					//失败
 					fail() {
@@ -236,8 +268,8 @@
 						var newList = res.devices
 						newList.forEach(item => {
 							//判断是否是体温计设备
-							if (((ab2hex(item.advertisData)) == 'FFFF464C2D344E5443'.toLowerCase())) {
-								_this.bleList.push(item)
+							  if (((ab2hex(item.advertisData)) == 'FFFF464C2D344E5443'.toLowerCase())) {
+							  	_this.bleList.push(item)
 							}
 
 						})
@@ -256,7 +288,7 @@
 
 		onShow() {
 			var _this = this
-
+			
 
 			//判断中英文
 			this.search = "正在搜索";
@@ -269,7 +301,15 @@
 			this.keyong = '可用设备:'
 
 			//蓝牙设置
-
+			//获取蓝牙信息
+			uni.getStorage({
+				key:'link_ble_info',
+				success:function(res){
+					if (res.data != null && res.data != '') {
+						_this.ble_info = res.data
+					}
+				}
+			})
 			//蓝牙搜索
 			uni.openBluetoothAdapter({
 				success() {
@@ -298,9 +338,9 @@
 				_this.blelink = res
 				// 该方法回调中可以用于处理连接意外断开等异常情况
 				console.log('蓝牙:' + res.deviceId + '连接状态:' + res.connected)
+				uni.setStorageSync('ble_link', res);
 			})
-
-		},
+ 		},
 
 	}
 </script>

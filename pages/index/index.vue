@@ -1,10 +1,12 @@
 <template>
-	<view >
+	<view>
 		<cg-swiper :swiperList="swiperList" @clickItem="clickItem"></cg-swiper>
-		<u-input v-model="value" maxlength='40' type="textarea" border height="200"  placeholder='备注:'/>
+		<u-input v-model="value" maxlength='40' type="textarea" border height="200" placeholder='备注:' />
 		<view class="start" @click="back">
-			<text >返回检测</text>
+			<text>返回检测</text>
 		</view>
+		<!--蓝牙连接提醒-->
+		
 	</view>
 </template>
 
@@ -16,105 +18,107 @@
 		},
 		data() {
 			return {
-				index:'',
-				value:'',
-				swiperList: [
-					{
-						index:0,
+				ble_info:'',//蓝牙连接信息
+				index: '',
+				value: '',
+				swiperList: [{
+						index: 0,
 						text: '早上醒来',
 						img: '../../static/zaoshangxinglai.png'
 					},
 					{
-						index:1,
+						index: 1,
 						text: '便后',
 						img: '../../static/bianhou.png'
 					},
 					{
-						index:2,
+						index: 2,
 						text: '口苦',
 						img: '../../static/kouku.png'
 					},
 					{
-						index:3,
+						index: 3,
 						text: '跑',
 						img: '../../static/pao.png'
 					},
 					{
-						index:4,
+						index: 4,
 						text: '走',
 						img: '../../static/zou.png'
 					},
 					{
-						index:5,
+						index: 5,
 						text: '卧',
 						img: '../../static/wo.png'
 					},
 					{
-						index:6,
+						index: 6,
 						text: '坐',
 						img: '../../static/zuo.png'
 					},
 					{
-						index:7,
+						index: 7,
 						text: '上肢运动',
 						img: '../../static/shangzhiyundong.png'
 					},
 					{
-						index:8,
+						index: 8,
 						text: '上下肢运动',
 						img: '../../static/shangxiazhiyundong.png'
 					},
 					{
-						index:9,
+						index: 9,
 						text: '讲',
 						img: '../../static/jiang.png'
 					},
 					{
-						index:10,
+						index: 10,
 						text: '写',
 						img: '../../static/xie.png'
 					},
 					{
-						index:11,
+						index: 11,
 						text: '听,看',
 						img: '../../static/tingkan.png'
 					},
 					{
-						index:12,
+						index: 12,
 						text: '吃',
 						img: '../../static/chi.png'
 					},
 					{
-						index:13,
+						index: 13,
 						text: '疲劳',
 						img: '../../static/pilao.png'
 					},
 					{
-						index:14,
+						index: 14,
 						text: '忧愁',
 						img: '../../static/youchou.png'
 					},
 					{
-						index:15,
+						index: 15,
 						text: '喜悦',
 						img: '../../static/xingfen.png'
 					}
-					
+
 				]
 			}
 		},
 		methods: {
+			
 			clickItem(item) {
 				this.index = item.index
 			},
-			back(){
-				uni.setStorageSync('index',this.index)
+			back() {
+				uni.setStorageSync('index', this.index)
 				uni.switchTab({
-					url:'./indexs'
+					url: './indexs'
 				})
 			}
-			
-		}
+
+		},
+		
 	}
 </script>
 
