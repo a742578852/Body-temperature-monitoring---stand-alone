@@ -166,7 +166,7 @@
 										  var humidity = hex2int(linData.substring(18,20))
 										  //获取电量
 										  var electric = hex2int(linData.substring(20,22))
-										  //存入缓存
+										  //存入缓存 
 										  var date = new Date()
 										  var data = {'leftArmpit':leftArmpit,'leftBody':leftBody,'rightArmpit':rightArmpit,
 										  'rightBody':rightBody,'humidity':humidity,'electric':electric,
@@ -179,7 +179,7 @@
 										
 										  history.push(data)
 										  _this.historyData = history
-											
+											console.log(_this.historyData);
 										  uni.setStorageSync('historyData',_this.historyData)
 										  
 										})
@@ -223,15 +223,13 @@
 					url: toast_info.url
 				})
 			},
-			
-
 		},
 		onShow() {
 			var _this = this
 			_this.wddw = uni.getStorageSync('wddw')
 			_this.motion_state = uni.getStorageSync('motionState')
 			
-
+console.log('546464545');
 			//数据上报
 			//蓝牙连接操作
 			//判断蓝牙有无连接设备
@@ -268,62 +266,24 @@
 											.ble_info
 											.deviceId,
 										success(res) {
-											_this
-												.ble_services =
-												res
-												.services
+											_this.ble_services =res.services
+										
+											res.services.forEach((item) => {
+												console.log("进入循环" +item.uuid);
+												if (item.uuid.indexOf("8653000A") !=-1) {
+													_this.serviceId =item.uuid;
+													//进入特征
+													_this.getBLEDeviceCharacteristics()
+												}
+											})
+											
 										}
 									})
-
-									//获取蓝牙特征值
-									setTimeout(() => {
-										uni.getBLEDeviceCharacteristics({
-											deviceId: res.data
-												.deviceId,
-											serviceId: _this
-												.ble_services
-												.serviceId,
-											success(res) {
-												console.log(
-													'获取蓝牙特征值');
-												_this
-													.ble_character =
-													res
-													.characteristics
-												res.characteristics
-													.forEach((
-														item
-													) => {
-														console
-															.log(
-																'uuid' +
-																item
-																.uuid
-															);
-														if (item
-															.uuid
-															.indexOf(
-																'8653000B'
-															) !=
-															-1
-														) {
-															_this
-																.notifyBLECharacteristicValueChange(
-																	item
-																	.uuid
-																)
-
-														}
-													})
-											}
-										})
-
-
+									}
 									}, 1000)
 
-								}
-							})
-
+								
+					
 							//蓝牙未连接,重新连接
 						} else {
 
@@ -346,39 +306,19 @@
 											//获取所有服务
 											setTimeout(() => {
 												uni.getBLEDeviceServices({
-													deviceId: _this
-														.ble_info
-														.deviceId,
+													deviceId: _this.ble_info.deviceId,
 													fail(res) {
 														console.log(res);
 													},
 													success(res) {
 														console.log(res);
-														_this
-															.ble_services =
-															res
-															.services
-														res.services.forEach((
-															item) => {
-															console
-																.log(
-																	"进入循环" +
-																	item
-																	.uuid
-																	);
-															if (item
-																.uuid
-																.indexOf(
-																	"8653000A"
-																	) !=
-																-1) {
-																_this
-																	.serviceId =
-																	item
-																	.uuid;
+														_this.ble_services =res.services
+														res.services.forEach((item) => {
+															console.log("进入循环" +item.uuid);
+															if (item.uuid.indexOf("8653000A") !=-1) {
+																_this.serviceId =item.uuid;
 																//进入特征
-																_this
-																	.getBLEDeviceCharacteristics()
+																_this.getBLEDeviceCharacteristics()
 															}
 														})
 
