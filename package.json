@@ -12,6 +12,7 @@
   "dependencies": {
     "echarts": "^5.1.1",
     "file-saver": "^2.0.5",
+    "script-loader": "^0.7.2",
     "uview-ui": "^1.8.4",
     "vue-json-excel": "^0.3.0",
     "xlsx": "^0.17.0"

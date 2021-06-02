@@ -1,6 +1,6 @@
 <template>
 	<view class="id">
-		
+	
 		<view class="div1">
 			<u-avatar class="img" :src="touxiang" @click="grzl"></u-avatar>
 			<!-- <image class="img" :src="touxiang" @click="grzl"></image> -->
@@ -82,7 +82,9 @@
 
 <script>
 	// import {calendar} from '../../util/calendar.js'
-	
+	// import XLSX, { WorkSheet } from "xlsx";
+	 import Blob from '../../common/Blob.js'
+	    import { export_json_to_excel } from '../../common/Export2Excel.js'
 	export default {
 		data() {
 			return {
@@ -118,9 +120,8 @@
 			}
 		},
 		methods: {
-			daochu(){
-				
-			},
+			
+			
 			//跳转关于页面
 			abouts(){
 				uni.navigateTo({
@@ -195,6 +196,7 @@
 			bindPickerChange4(e) {
 				console.log('picker发送选择改变，携带值为', e.target.value)
 				this.index4 = e.target.value
+				
 			},
 			//更换设备
 			ghsb(){
