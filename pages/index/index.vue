@@ -108,10 +108,10 @@
 		methods: {
 			
 			clickItem(item) {
-				this.index = item.index
+				this.index = item.text
 			},
 			back() {
-				uni.setStorageSync('index', this.index)
+				uni.setStorageSync('motionState', this.index)
 				uni.switchTab({
 					url: './indexs'
 				})

@@ -2,12 +2,46 @@
 	
 		<view >
 			<!--蓝色背景-->
-			<view style="background-color: #4a5cd0;height: 500rpx;">
+			<view style="background-color: #4a5cd0;height: 700rpx;">
 			<!--状态-->
-			<view style="padding-top:150rpx ;">
-				<view>状态</view>
-				
+			<view style="padding-top:30rpx;padding-left: 30rpx;">
+				<view style="color: #FFFFFF;font-size: 30rpx;">状态: {{motion_state}}</view>
 			</view>
+			<!--四个温度显示-->
+			<view>
+					<view style="display: flex;">
+						<view style="margin-left: 37rpx; margin-top: 30rpx; background-color: #7885dc;height: 190rpx;width: 320rpx;border-radius: 50rpx 0 0 0;">
+							<view style="margin-left: 30rpx;margin-top: 20rpx; color: #FFFFFF;">左体表(°C)</view>
+							<view style="margin-top:50rpx;margin-left: 150rpx;color: #FFFFFF;font-size: 70rpx;">{{leftBody}}</view>
+						</view>
+						<view style="margin-left: 37rpx; margin-top: 30rpx; background-color: #7885dc;height: 190rpx;width: 320rpx;border-radius: 0 50rpx 0 0;">
+							<view style="margin-left: 30rpx;margin-top: 20rpx; color: #FFFFFF;">右体表(°C)</view>
+							<view style="margin-top:50rpx;margin-left: 150rpx;color: #FFFFFF;font-size: 70rpx;">{{rightBody}}</view>
+						</view>
+					</view>
+				<view style="display: flex;">
+					<view style="margin-left: 37rpx; margin-top: 30rpx; background-color: #7885dc;height: 190rpx;width: 320rpx;border-radius: 0 0 0 50rpx;">
+						<view style="margin-left: 30rpx;margin-top: 20rpx; color: #FFFFFF;">左腋下(°C)</view>
+						<view style="margin-top:50rpx;margin-left: 150rpx;color: #FFFFFF;font-size: 70rpx;">{{leftArmpit}}</view>
+					</view>
+					<view style="margin-left: 37rpx; margin-top: 30rpx; background-color: #7885dc;height: 190rpx;width: 320rpx;border-radius: 0 0 50rpx 0;">
+						<view style="margin-left: 30rpx;margin-top: 20rpx; color: #FFFFFF;">右体表(°C)</view>
+						<view style="margin-top:50rpx;margin-left: 150rpx;color: #FFFFFF;font-size: 70rpx;">{{rightArmpit}}</view>
+					</view>
+				</view>
+			</view>
+			<!--温差-->
+			<view style="display: flex;">
+				<view>
+					<view style="color: #FFFFFF;margin-top: 20rpx;margin-left: 100rpx;">体温温差(°C)</view>
+					<view style="color: #FFFFFF;margin-top: 20rpx;margin-left: 100rpx;font-size: 70rpx;">{{bodyDisparity}}</view>
+				</view>
+				<view>
+					<view style="color: #FFFFFF;margin-top: 20rpx;margin-left: 240rpx;">腋下温差</view>
+					<view style="color: #FFFFFF;margin-top: 20rpx;margin-left: 240rpx;font-size: 70rpx;">{{armpitDisparity}}</view>
+				</view>
+			</view>
+			
 			</view>
 		
 
@@ -17,10 +51,11 @@
 		</view>
 
 		
-		<view class="btn">
-			<view class="start" @click="xzms">
-				<text>选择模式</text>
-			</view>
+		
+		
+		<!--返回监控按钮-->
+		<view >
+			<u-button @click="resType" shape="circle" size="medium"  :ripple="true" style="background-color:#4a5cd0 ;color: #FFFFFF">返回监控</u-button>
 		</view>
 
 	</view>
@@ -30,6 +65,13 @@
 	export default {
 		data() {
 			return {
+				leftBody:'',//左体表
+				leftArmpit:'',//左腋下
+				rightArmpit:'',//右腋下
+				rightBody:'',//右体表
+				bodyDisparity:'',//体温温差
+				armpitDisparity:'',//腋下温差
+				motion_state:'',
 				serviceId: '',
 				ble_info: '', //连接的蓝牙设备信息
 				ble_services: '', //蓝牙设备服务信息
@@ -51,9 +93,13 @@
 			}
 		},
 		methods: {
+			resType(){
+				uni.navigateTo({
+					url:'./index'
+				})
+			},
 			//获取蓝牙特征值
 			getBLEDeviceCharacteristics() {
-				
 				//16进制转成10进制
 				function hex2int(hex) {
 				    var len = hex.length, a = new Array(len), code;
@@ -177,17 +223,13 @@
 					url: toast_info.url
 				})
 			},
-			xzms() {
-				uni.navigateTo({
-					url: './index'
-				})
-			},
+			
 
 		},
 		onShow() {
 			var _this = this
-			this.wddw = uni.getStorageSync('wddw')
-			this.index = uni.getStorageSync('index')
+			_this.wddw = uni.getStorageSync('wddw')
+			_this.motion_state = uni.getStorageSync('motionState')
 			
 
 			//数据上报
@@ -393,6 +435,30 @@
 </script>
 
 <style lang="scss">
+.wrap {
+		padding: 24rpx;
+	}
 
+	.u-row {
+		margin: 40rpx 0;
+	}
+
+	.demo-layout {
+		height: 80rpx;
+		border-radius: 8rpx;
+	}
+
+	.bg-purple {
+		background: #d3dce6;
+	}
+
+	.bg-purple-light {
+		background: #e5e9f2;
+	}
+
+	.bg-purple-dark {
+		background: #99a9bf;
+	}
+</style>
 
 </style>
