@@ -3,7 +3,7 @@
 		<cg-swiper :swiperList="swiperList" @clickItem="clickItem"></cg-swiper>
 		<u-input v-model="value" maxlength='40' type="textarea" border height="200" placeholder='备注:' />
 		<view class="start" @click="back">
-			<text>返回检测</text>
+			<text>确认</text>
 		</view>
 		<!--蓝牙连接提醒-->
 		
@@ -124,15 +124,16 @@
 
 <style>
 	.start {
-		width: 200upx;
-		margin-left: 36%;
-		margin-top: 50upx;
-		height: 200upx;
+		width: 80%;
+		margin-left: 10%;
+		margin-top: 30upx;
+		margin-bottom: 30upx;
+		height: 80upx;
 		border: 1upx solid #000000;
-		border-radius: 100upx;
+		border-radius: 30upx;
 		text-align: center;
-		line-height: 200upx;
-		background-color: #ff0000;
-		color: #007AFF;
+		line-height: 80upx;
+		background-color: #e0ffff;
+		color: #1606ff;
 	}
 </style>

@@ -1,44 +1,45 @@
 <template>
 	
-		<view >
+		<view id="main">
 			<!--蓝色背景-->
 			<view style="background-color: #4a5cd0;height: 700rpx;">
 			<!--状态-->
-			<view style="padding-top:30rpx;padding-left: 30rpx;">
+			<view style="width: 75%; padding-top:30rpx;display: flex;justify-content: space-between;margin-left: 12%;">
 				<view style="color: #FFFFFF;font-size: 30rpx;">状态: {{motion_state}}</view>
+				<view style="color: #FFFFFF;font-size: 30rpx;">湿度: {{shidu}}</view>
 			</view>
 			<!--四个温度显示-->
 			<view>
 					<view style="display: flex;">
 						<view style="margin-left: 37rpx; margin-top: 30rpx; background-color: #7885dc;height: 190rpx;width: 320rpx;border-radius: 50rpx 0 0 0;">
 							<view style="margin-left: 30rpx;margin-top: 20rpx; color: #FFFFFF;">左体表(°C)</view>
-							<view style="margin-top:50rpx;margin-left: 150rpx;color: #FFFFFF;font-size: 70rpx;">{{leftBody}}</view>
+							<view style="margin-top:50rpx;margin-left: 150rpx;color: #FFFFFF;font-size: 60rpx;">{{leftBody}}</view>
 						</view>
 						<view style="margin-left: 37rpx; margin-top: 30rpx; background-color: #7885dc;height: 190rpx;width: 320rpx;border-radius: 0 50rpx 0 0;">
 							<view style="margin-left: 30rpx;margin-top: 20rpx; color: #FFFFFF;">右体表(°C)</view>
-							<view style="margin-top:50rpx;margin-left: 150rpx;color: #FFFFFF;font-size: 70rpx;">{{rightBody}}</view>
+							<view style="margin-top:50rpx;margin-left: 150rpx;color: #FFFFFF;font-size: 60rpx;">{{rightBody}}</view>
 						</view>
 					</view>
 				<view style="display: flex;">
 					<view style="margin-left: 37rpx; margin-top: 30rpx; background-color: #7885dc;height: 190rpx;width: 320rpx;border-radius: 0 0 0 50rpx;">
 						<view style="margin-left: 30rpx;margin-top: 20rpx; color: #FFFFFF;">左腋下(°C)</view>
-						<view style="margin-top:50rpx;margin-left: 150rpx;color: #FFFFFF;font-size: 70rpx;">{{leftArmpit}}</view>
+						<view style="margin-top:50rpx;margin-left: 150rpx;color: #FFFFFF;font-size: 60rpx;">{{leftArmpit}}</view>
 					</view>
 					<view style="margin-left: 37rpx; margin-top: 30rpx; background-color: #7885dc;height: 190rpx;width: 320rpx;border-radius: 0 0 50rpx 0;">
 						<view style="margin-left: 30rpx;margin-top: 20rpx; color: #FFFFFF;">右体表(°C)</view>
-						<view style="margin-top:50rpx;margin-left: 150rpx;color: #FFFFFF;font-size: 70rpx;">{{rightArmpit}}</view>
+						<view style="margin-top:50rpx;margin-left: 150rpx;color: #FFFFFF;font-size: 60rpx;">{{rightArmpit}}</view>
 					</view>
 				</view>
 			</view>
 			<!--温差-->
 			<view style="display: flex;">
 				<view>
-					<view style="color: #FFFFFF;margin-top: 20rpx;margin-left: 100rpx;">体温温差(°C)</view>
-					<view style="color: #FFFFFF;margin-top: 20rpx;margin-left: 100rpx;font-size: 70rpx;">{{bodyDisparity}}</view>
+					<view style="color: #FFFFFF;margin-top: 20rpx;margin-left: 100rpx;">体表温差(°C)</view>
+					<view style="color: #FFFFFF;margin-top: 20rpx;margin-left: 100rpx;font-size: 60rpx;">{{bodyDisparity}}</view>
 				</view>
 				<view>
-					<view style="color: #FFFFFF;margin-top: 20rpx;margin-left: 240rpx;">腋下温差</view>
-					<view style="color: #FFFFFF;margin-top: 20rpx;margin-left: 240rpx;font-size: 70rpx;">{{armpitDisparity}}</view>
+					<view style="color: #FFFFFF;margin-top: 20rpx;margin-left: 240rpx;">腋下温差(°C)</view>
+					<view style="color: #FFFFFF;margin-top: 20rpx;margin-left: 240rpx;font-size: 60rpx;">{{armpitDisparity}}</view>
 				</view>
 			</view>
 			
@@ -49,13 +50,42 @@
 		<view>
 			<u-toast ref="uToast" />
 		</view>
-
+		<view class="topTj">
+			<view class="wdtj" @click="dianji">温度</view>
+			<view class="wctj" @click="dianjis">温差</view>
+		</view>
+		<view class="tj" v-if="state">
+			<view class="charts-box">
+			  <qiun-data-charts
+			    type="demotype"
+			    :chartData="chartData"
+			    :loadingType="5"
+			    :errorShow="false"
+			    :inScrollView="true"
+			    background="none"
+			    :ontouch="true"
+			  />
+			</view>
+		</view>
 		
+		<view class="tj" v-if="state1">
+			<view class="charts-box">
+			  <qiun-data-charts
+			    type="demotype"
+			    :chartData="chartData1"
+			    :loadingType="5"
+			    :errorShow="false"
+			    :inScrollView="true"
+			    background="none"
+			    :ontouch="true"
+			  />
+			</view>
+		</view>
 		
 		
 		<!--返回监控按钮-->
 		<view >
-			<u-button @click="resType" shape="circle" size="medium"  :ripple="true" style="background-color:#4a5cd0 ;color: #FFFFFF">返回监控</u-button>
+			<u-button @click="resType" shape="circle" size="medium"  :ripple="true" style="background-color:#4a5cd0 ;color: #FFFFFF;width: 80%;margin-left: 10%;">结束监控</u-button>
 		</view>
 
 	</view>
@@ -65,12 +95,17 @@
 	export default {
 		data() {
 			return {
+				shidu:'',
+				state:true,
+				state1:false,
 				leftBody:'',//左体表
 				leftArmpit:'',//左腋下
 				rightArmpit:'',//右腋下
 				rightBody:'',//右体表
-				bodyDisparity:'',//体温温差
+				bodyDisparity:'',//体表温差
+				
 				armpitDisparity:'',//腋下温差
+				
 				motion_state:'',
 				serviceId: '',
 				ble_info: '', //连接的蓝牙设备信息
@@ -87,12 +122,50 @@
 				sd: '59',
 				chartData:{
 					categories:[],
-					series:[],
+					series:[
+						{
+							"name": "左腋下",
+							"data": []
+						},
+						{
+							"name": "右腋下",
+							"data": []
+						},
+						{
+							"name": "左体表",
+							"data": []
+						},
+						{
+							"name": "右体表",
+							"data": []
+						},
+					],
+				},
+				chartData1:{
+					categories:[],
+					series:[
+						{
+							"name": "腋下温差",
+							"data": []
+						},
+						{
+							"name": "体表温差",
+							"data": []
+						},
+					],
 				},
 				historyData:[]
 			}
 		},
 		methods: {
+			dianji(){
+				this.state = true
+				this.state1 = false
+			},
+			dianjis(){
+				this.state = false
+				this.state1 = true
+			},
 			resType(){
 				uni.navigateTo({
 					url:'./index'
@@ -169,17 +242,51 @@
 										  //存入缓存 
 										  var date = new Date()
 										  var data = {'leftArmpit':leftArmpit,'leftBody':leftBody,'rightArmpit':rightArmpit,
-										  'rightBody':rightBody,'humidity':humidity,'electric':electric,
+										  'rightBody':rightBody,'humidity':humidity,'electric':electric,'motion_state':_this.motion_state,
 										  'date':date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()}
 
 										  var history = uni.getStorageSync("historyData") 
 										  if(history == null || history == ''){
 											  history = new Array()
 										  }
-										
+										console.log(history);
 										  history.push(data)
 										  _this.historyData = history
-											console.log(_this.historyData);
+										  _this.chartData.series[0].data=[]
+										  _this.chartData.series[1].data=[]
+										  _this.chartData.series[2].data=[]
+										  _this.chartData.series[3].data=[]
+										  _this.chartData.categories = []
+										  
+										  _this.chartData1.series[0].data=[]
+										  _this.chartData1.series[1].data=[]
+										  _this.chartData1.categories = []
+										  //往统计图中放数据
+										  for(var i = 0;i<5;i++){
+											  _this.chartData.categories.push('')
+											  _this.chartData.series[0].data.push(_this.historyData[i].leftArmpit)  
+											  _this.chartData.series[1].data.push(_this.historyData[i].leftBody)
+											  _this.chartData.series[2].data.push(_this.historyData[i].rightArmpit)
+											  _this.chartData.series[3].data.push(_this.historyData[i].rightBody)
+											  //温差数组
+											  _this.chartData1.categories.push('')
+											  _this.chartData1.series[0].data.push(Math.abs((_this.historyData[i].leftArmpit - _this.historyData[i].rightArmpit).toString().substring(0,5)))
+											  _this.chartData1.series[1].data.push(Math.abs((_this.historyData[i].leftBody - _this.historyData[i].rightBody).toString().substring(0,5)))
+										  }
+											//左体表温度
+											_this.leftBody = _this.historyData[0].leftBody
+											//右体表温度
+											_this.rightBody = _this.historyData[0].rightBody
+											//左腋下温度
+											_this.leftArmpit = _this.historyData[0].leftArmpit
+											//右腋下温度
+											_this.rightArmpit = _this.historyData[0].rightArmpit
+											//体表温差
+										  _this.bodyDisparity = Math.abs((_this.historyData[0].leftBody - _this.historyData[0].rightBody).toString().substring(0,5))
+											//腋下温差
+										  _this.armpitDisparity = Math.abs((_this.historyData[0].leftArmpit - _this.historyData[0].rightArmpit).toString().substring(0,5))
+										  _this.shidu = _this.historyData[0].humidity
+										  
 										  uni.setStorageSync('historyData',_this.historyData)
 										  
 										})
@@ -228,6 +335,8 @@
 			var _this = this
 			_this.wddw = uni.getStorageSync('wddw')
 			_this.motion_state = uni.getStorageSync('motionState')
+			
+						
 			
 console.log('546464545');
 			//数据上报
@@ -375,6 +484,41 @@ console.log('546464545');
 </script>
 
 <style lang="scss">
+	#main {
+		.tj {
+			width: 100%;
+			height: 650upx;
+			/* 请根据需求修改图表容器尺寸，如果父容器没有高度图表则会显示异常 */
+			.charts-box{
+			  width: 100%;
+			  height:300px;
+			}
+		}
+		.topTj {
+			margin-top: 20upx;
+			margin-left: 30%;
+			width: 40%;
+			height: 60upx;
+			display: flex;
+			justify-content: space-between;
+			.wdtj {
+				text-align: center;
+				height: 45upx;
+				width: 85upx;
+				border: 1upx solid #55aaff;
+				border-radius: 20upx;
+				background-color: #55aaff;
+			}
+			.wctj {
+				text-align: center;
+				height: 45upx;
+				width: 85upx;
+				border: 1upx solid #55aaff;
+				border-radius: 20upx;
+				background-color: #55aaff;
+			}
+		}
+	}
 .wrap {
 		padding: 24rpx;
 	}
