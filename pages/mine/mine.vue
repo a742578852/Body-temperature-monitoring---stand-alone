@@ -81,10 +81,7 @@
 </template>
 
 <script>
-	// import {calendar} from '../../util/calendar.js'
-	// import XLSX, { WorkSheet } from "xlsx";
-	 import Blob from '../../common/Blob.js'
-	    import { export_json_to_excel } from '../../common/Export2Excel.js'
+
 	export default {
 		data() {
 			return {

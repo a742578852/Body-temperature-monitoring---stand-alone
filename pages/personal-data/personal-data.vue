@@ -97,9 +97,9 @@
 				imgUrl: '',
 				isTrue:true,
 				arraySex: ['男', '女'],
-				name: '张三',
-				sex: '男',
-				age: '18',
+				name: '',
+				sex: '',
+				age: '',
 				height: '180',
 				weight: '70',
 				waist: '70',
@@ -171,7 +171,9 @@
 				} 
 			},
 			btn(){
-				console.log('000');
+				uni.setStorageSync("name",this.name)
+				uni.setStorageSync("sex",this.sex)
+				uni.setStorageSync("age",this.age)
 				uni.switchTab({
 					url:'../mine/mine'
 				})
