@@ -79,13 +79,13 @@
 			<u-icon name="arrow-right"></u-icon>
 		</view>
 		<!-- <button type="primary" @click='btn' :disabled="false">保存</button> -->
-		<button type="default" @click="btn" style="background-color: #FBBD08;"  :disabled="isTrue">{{bc}}</button>
-		<view style="text-align: center;height: 50upx;">
+		<button type="default" @click="btn" style="background-color: #FBBD08;"  >{{bc}}</button>
+		<!-- <view style="text-align: center;height: 50upx;">
 			<u-radio-group>
 				<u-radio @change="radioChange" name='1'></u-radio>
 			</u-radio-group>
 			<text @click="yinsi">{{gz}}</text>
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -100,17 +100,17 @@
 				name: '',
 				sex: '',
 				age: '',
-				height: '180',
-				weight: '70',
-				waist: '70',
-				phone: '15858888888',
-				mail: '158322@qq.com',
-				nation: '汉',
-				address: '江苏',
-				contacts: '李四',
-				contactsphone: '15852288888',
-				allergy: '无',
-				diagnosis: '神经病',
+				height: '',
+				weight: '',
+				waist: '',
+				phone: '',
+				mail: '',
+				nation: '',
+				address: '',
+				contacts: '',
+				contactsphone: '',
+				allergy: '',
+				diagnosis: '',
 				tx:'头像',
 				xm:'姓名',
 				xb:'性别',
@@ -138,6 +138,7 @@
 			},
 			bindPickerChange(e) {
 				console.log('picker发送选择改变，携带值为', e.target.value)
+				uni.setStorageSync('sexindex',e.target.value)
 				this.index = e.target.value
 			},
 			//上传头像
@@ -172,8 +173,19 @@
 			},
 			btn(){
 				uni.setStorageSync("name",this.name)
-				uni.setStorageSync("sex",this.sex)
+				
 				uni.setStorageSync("age",this.age)
+				uni.setStorageSync("height",this.height)
+				uni.setStorageSync("weight",this.weight)
+				uni.setStorageSync("waist",this.waist)
+				uni.setStorageSync("phone",this.phone)
+				uni.setStorageSync("mail",this.mail)
+				uni.setStorageSync("nation",this.nation)
+				uni.setStorageSync("address",this.address)
+				uni.setStorageSync("contacts",this.contacts)
+				uni.setStorageSync("contactsphone",this.contactsphone)
+				uni.setStorageSync("allergy",this.allergy)
+				uni.setStorageSync("diagnosis",this.diagnosis)
 				uni.switchTab({
 					url:'../mine/mine'
 				})
@@ -184,6 +196,24 @@
 			this.imgUrl = uni.getStorageSync('touxiang')
 		},
 		onShow() {
+			this.name = uni.getStorageSync('name')
+			if(uni.getStorageSync('sexindex')==0){
+				this.index = 0
+			}else if(uni.getStorageSync('sexindex')==1){
+				this.index = 1
+			}
+			this.age = uni.getStorageSync('age')
+			this.height = uni.getStorageSync('height')
+			this.weight = uni.getStorageSync('weight')
+			this.waist = uni.getStorageSync('waist')
+			this.phone = uni.getStorageSync('phone')
+			this.mail = uni.getStorageSync('mail')
+			this.nation = uni.getStorageSync('nation')
+			this.address = uni.getStorageSync('address')
+			this.contacts = uni.getStorageSync('contacts')
+			this.contactsphone = uni.getStorageSync('contactsphone')
+			this.allergy = uni.getStorageSync('allergy')
+			this.diagnosis = uni.getStorageSync('diagnosis')
 			//中英文切换
 			var indexYy = uni.getStorageSync('indexYy')
 			if(indexYy == 1){
