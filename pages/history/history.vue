@@ -234,6 +234,14 @@
 						fontSize: '16px'
 					},
 					{
+						content: '运动状态',
+						color: 'blue',
+						type: 'text',
+						width: '300px',
+						height: '25px',
+						fontSize: '16px'
+					},
+					{
 						content: '采集时间',
 						color: 'blue',
 						type: 'text',
@@ -340,6 +348,15 @@
 									height: '25px',
 									fontSize: '16px'
 								
+								},
+								{
+									content: historyData[i].motion_state,
+									color: 'blue',
+									type: 'text',
+									width: '400px',
+									height: '25px',
+									fontSize: '16px'
+									
 								},
 								{
 									content: historyData[i].date,
