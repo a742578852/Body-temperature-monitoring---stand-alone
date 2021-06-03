@@ -286,7 +286,7 @@
 											//腋下温差
 										  _this.armpitDisparity = Math.abs((_this.historyData[0].leftArmpit - _this.historyData[0].rightArmpit).toString().substring(0,5))
 										  _this.shidu = _this.historyData[0].humidity
-										  console.log(_this.historyData);
+
 										  uni.setStorageSync('historyData',_this.historyData)
 										  
 										})
