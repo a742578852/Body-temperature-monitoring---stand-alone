@@ -376,7 +376,6 @@ console.log('546464545');
 											.deviceId,
 										success(res) {
 											_this.ble_services =res.services
-										
 											res.services.forEach((item) => {
 												console.log("进入循环" +item.uuid);
 												if (item.uuid.indexOf("8653000A") !=-1) {
