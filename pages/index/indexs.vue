@@ -1,6 +1,23 @@
 <template>
 	
 		<view id="main">
+			
+			<!--提醒弹出框-->
+			<view>
+				<div>
+					<u-popup v-model="popubShow" mode="bottom" height="auto" border-radius="15">
+						<view style="text-align: center;font-size: 35upx;margin-top: 30upx;">请开启蓝牙服务</view>
+						<view style="font-size: 32upx;margin-top: 30upx;color: #8799A3;text-align: center;">
+							开启后即可搜索和连接设备
+						</view>
+						<view style="margin-top: 30upx;">
+							<button @click="popubShow = false">取消</button>
+							<button @click="cancel()">去设置</button>
+						</view>
+					</u-popup>
+				</div>
+			</view>
+			
 			<!--蓝色背景-->
 			<view style="background-color: #4a5cd0;height: 700rpx;">
 			<!--状态-->
@@ -95,6 +112,7 @@
 	export default {
 		data() {
 			return {
+				popubShow:false,
 				shidu:'',
 				state:true,
 				state1:false,
@@ -136,7 +154,7 @@
 							"data": []
 						},
 						{
-							"name": "右体表",
+							"name": "右腋下",
 							"data": []
 						},
 					],
@@ -158,6 +176,13 @@
 			}
 		},
 		methods: {
+			//跳转到手机设置页
+			cancel() {
+				var main = plus.android.runtimeMainActivity();
+				var Intent = plus.android.importClass("android.content.Intent");
+				var mIntent = new Intent('android.settings.SETTINGS');
+				main.startActivity(mIntent);
+			},
 			dianji(){
 				this.state = true
 				this.state1 = false
@@ -244,7 +269,9 @@
 											    var date = new Date()
 											    var data = {'leftArmpit':leftArmpit,'leftBody':leftBody,'rightArmpit':rightArmpit,
 											    'rightBody':rightBody,'humidity':humidity,'electric':electric,'motion_state':_this.motion_state,
-											    'date':date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()}
+											    'date':date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds(),
+												'bodyDisparity':Math.abs((rightBody - leftBody).toString().substring(0,5)),
+												'armpitDisparity':Math.abs((leftArmpit - rightArmpit).toString().substring(0,5))}
 											  
 											    var history = uni.getStorageSync("historyData") 
 												
@@ -255,6 +282,7 @@
 											    history.unshift(data)
 												
 											    _this.historyData = history
+												console.log(_this.historyData);
 												uni.setStorageSync('historyData',_this.historyData)
 											    _this.chartData.series[0].data=[]
 											    _this.chartData.series[1].data=[]
@@ -354,7 +382,8 @@ console.log('546464545');
 			//读取缓存数据
 			uni.getStorage({
 				key: 'link_ble_info',
-				success: function(res) {
+				complete: function(res) {
+					console.log(res);
 					//判断是否是初次连接
 					if (res.data == null || res.data == '') {
 						var toast_info = {
@@ -453,7 +482,6 @@ console.log('546464545');
 
 					}
 				}
-
 			})
  
 
@@ -475,9 +503,19 @@ console.log('546464545');
 			
 			})
 			
-			//特征值监听
-			uni.onBLECharacteristicValueChange(function (characteristic) {
-			  console.log('characteristic value comed:', ab2hex(characteristic.value))
+			// //特征值监听
+			// uni.onBLECharacteristicValueChange(function (characteristic) {
+			//   console.log('characteristic value comed:', ab2hex(characteristic.value))
+			// })
+			
+			//蓝牙开关状态监听
+			uni.onBluetoothAdapterStateChange(function(res) {
+				uni.setStorageSync('ava',res.available)
+				if (res.available == true) {
+					_this.popubShow = false
+				} else {
+					_this.popubShow = true
+				}
 			})
 		},
 		onLoad: function() {
@@ -486,6 +524,51 @@ console.log('546464545');
 				'deviceId': '',
 				'connected': false
 			});
+			
+			var history = uni.getStorageSync("historyData")
+			
+			if(history != null && history != ''){
+	_this.historyData = history
+	uni.setStorageSync('historyData',_this.historyData)
+	_this.chartData.series[0].data=[]
+	_this.chartData.series[1].data=[]
+	_this.chartData.series[2].data=[]
+	_this.chartData.series[3].data=[]
+	_this.chartData.categories = []
+	
+	_this.chartData1.series[0].data=[]
+	_this.chartData1.series[1].data=[]
+	_this.chartData1.categories = []
+	
+	//左体表温度
+	_this.leftBody = _this.historyData[0].leftBody
+	//右体表温度
+	_this.rightBody = _this.historyData[0].rightBody
+	//左腋下温度
+	_this.leftArmpit = _this.historyData[0].leftArmpit
+	//右腋下温度
+	_this.rightArmpit = _this.historyData[0].rightArmpit
+	//体表温差
+	_this.bodyDisparity = Math.abs((_this.historyData[0].leftBody - _this.historyData[0].rightBody).toString().substring(0,5))
+	//腋下温差
+	_this.armpitDisparity = Math.abs((_this.historyData[0].leftArmpit - _this.historyData[0].rightArmpit).toString().substring(0,5))
+	_this.shidu = _this.historyData[0].humidity
+	
+	//往统计图中放数据
+	for(var i = 0;i<5;i++){
+	  _this.chartData.categories.push('')
+	  _this.chartData.series[0].data.push(_this.historyData[i].leftArmpit)  
+	  _this.chartData.series[1].data.push(_this.historyData[i].leftBody)
+	  _this.chartData.series[2].data.push(_this.historyData[i].rightArmpit)
+	  _this.chartData.series[3].data.push(_this.historyData[i].rightBody)
+	  //温差数组
+	  _this.chartData1.categories.push('')
+	  _this.chartData1.series[0].data.push(Math.abs((_this.historyData[i].leftArmpit - _this.historyData[i].rightArmpit).toString().substring(0,5)))
+	  _this.chartData1.series[1].data.push(Math.abs((_this.historyData[i].leftBody - _this.historyData[i].rightBody).toString().substring(0,5)))
+	}
+			}
+											
+			
 			
 		}
 	}

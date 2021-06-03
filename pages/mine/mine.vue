@@ -4,26 +4,35 @@
 		<view class="div1">
 			<view>
 				<u-popup v-model="calibration_show" mode='bottom'>
-					<view >
+					<view>
 						<view style="margin-top: 10rpx;width: 60%;margin-left:20%;">
-							<u-button type="primary" @click = "calibrationGo('L1')">L1(左体表)通道</u-button>
+							<u-button :ripple="true" type="primary" @click="calibrationGo('L1')">L1(左体表)通道</u-button>
 						</view>
 						<view style="margin-top: 10rpx;width: 60%;margin-left:20%;">
-							<u-button type="primary" @click = "calibrationGo('L2')">L2(左腋下)通道</u-button>
+							<u-button :ripple="true" type="primary" @click="calibrationGo('L2')">L2(左腋下)通道</u-button>
 						</view>
 						<view style="margin-top: 10rpx;width: 60%;margin-left:20%;">
-							<u-button type="primary" @click = "calibrationGo('L3')">L3(右体表)通道</u-button>
+							<u-button :ripple="true" type="primary" @click="calibrationGo('R1')">R1(右体表)通道</u-button>
 						</view>
 						<view style="margin-top: 10rpx;width: 60%;margin-left:20%;">
-							<u-button type="primary" @click = "calibrationGo('L4')">L4(右腋下)通道</u-button>
+							<u-button :ripple="true" type="primary" @click="calibrationGo('R2')">R2(右腋下)通道</u-button>
 						</view>
 						<view style="margin-top: 10rpx;width: 60%;margin-left:20%;">
-							<u-button type="success" @click = "calibrationGo('all')">所有通道</u-button>
+							<u-button :ripple="true" type="success" @click="calibrationGo('all')">所有通道</u-button>
 						</view>
-						
+
 					</view>
 				</u-popup>
-
+				<!--校准密码弹窗-->
+				<u-popup v-model="password_show" mode='center' length = 'auto' border-radius="25">
+					<view style="width: 600rpx;margin: 30rpx;">
+						<u-input v-model="password" :type="type" :border="border" placeholder = '请输入密码' />
+						
+					</view>
+					<view style="width: 400rpx;margin-left: 120rpx;margin-top: 40rpx;margin-bottom: 40rpx;">
+						<u-button type="primary" shape="square" :ripple="true" @click="passwordVer()">确定</u-button>
+					</view>
+				</u-popup>
 			</view>
 			<view>
 				<u-toast ref="uToast" />
@@ -61,12 +70,12 @@
 				</picker>
 				<u-icon name="arrow-right"></u-icon>
 			</view>
-			
+
 			<!--loding-->
-			<view>
-					
-					<u-loading mode="flower" :show="loding_show"></u-loading>
-				</view>
+			<view style="width: 60%;margin-left:30%;">
+
+				<u-loading mode="flower" :show="loding_show" size='36'></u-loading>
+			</view>
 			<!--温度校准-->
 			<view class="cu-form-group">
 				<view class="title">{{wdxz}}:</view>
@@ -116,7 +125,11 @@
 	export default {
 		data() {
 			return {
-				loding_show:false,
+				type: 'text',
+				border: true,
+				password_show: false, //密码输入框弹窗
+				loding_show: false,
+				password: '', //密码
 				calibration_show: false, //温度校准弹窗
 				gywm: '关于我们',
 				sgdww: '身高单位',
@@ -146,53 +159,84 @@
 				arrayRl: ['阳历', '农历'],
 				arrayYy: ['中文', 'English'],
 				nongLi: {},
-				serviceId:'',//服务id
-				ble_info:''//deviceid
+				serviceId: '', //服务id
+				ble_info: '' //deviceid
 
 			}
 		},
 		methods: {
-			
-			//获取特征值
-			getBLEDeviceCharacteristics(){
+			//校准密码校验
+			passwordVer(){
+				if(this.password == 'DrCui'){
+					this.password_show = false
+					this.calibration_show = true
+				}else{
+					var toast_info = {
+						'title': '密码校验失败',
+						'type': 'success',
+					}
+					this.showToast(toast_info)
+				}
 				
+				
+			},
+			//获取特征值
+			getBLEDeviceCharacteristics(value) {
 				console.log("进入特征");
 				var _this = this
-			
 				setTimeout(() => {
 					uni.getBLEDeviceCharacteristics({
 						deviceId: _this.ble_info.deviceId,
 						serviceId: _this.serviceId,
 						success(res) {
+							console.log(res);
 							res.characteristics.forEach((item) => {
 								console.log('获取所有char');
-								if (item.uuid.indexOf('8653000C') !=-1){
+								if (item.uuid.indexOf('8653000C') != -1) {
 									const buffer = new ArrayBuffer(2)
 									const dataView = new DataView(buffer)
-									dataView.setUint8(0,0x02)
-									dataView.setUint8(1,0x02)
-									console.log(_this.deviceId+_this.serviceId+item.uuid);
+									dataView.setUint8(0, 0x02)
+									dataView.setUint8(1, value)
+									console.log(_this.deviceId + _this.serviceId + item.uuid);
 									uni.writeBLECharacteristicValue({
-										deviceId:_this.ble_info.deviceId,
-										serviceId:_this.serviceId,
-										characteristicId:item.uuid,
-										value:buffer,
+										deviceId: _this.ble_info.deviceId,
+										serviceId: _this.serviceId,
+										characteristicId: item.uuid,
+										value: buffer,
 										success(res) {
+											var toast_info = {
+												'title': '设备校准成功',
+												'type': 'success',
+											}
+											_this.showToast(toast_info)
 											console.log(res);
 										},
 										fail(res) {
+											var toast_info = {
+												'title': '设备写入数据失败,请检查蓝牙连接',
+												'type': 'warning',
+											}
+											_this.showToast(toast_info)
 											console.log(res);
 										}
-										
+
 									})
-									
+
 								}
 							})
+						},
+						fail(res) {
+							var toast_info = {
+								'title': '蓝牙特征值获取失败,请检查蓝牙连接',
+								'type': 'warning',
+							}
+							_this.showToast(toast_info)
+							console.log(res);
 						}
 					})
-					
-				},1000)
-				
+
+				}, 1000)
+
 			},
 			//蓝牙连接提醒
 			showToast(toast_info) {
@@ -212,33 +256,35 @@
 				if (ble_link.connected == false || ava.available == false) {
 					var toast_info = {
 						'title': '未检测到设备连接,请先连接设备',
-						'type': 'sucess',
+						'type': 'warning',
 					}
 					this.showToast(toast_info)
 				} else {
-					//弹出层 选择通道
-					this.calibration_show = true	
+					//弹出密码校验层 
+					this.password_show = true
 				}
 
 			},
 			//校准
-			calibrationGo(passageway){
+			calibrationGo(passageway) {
+
 				this.loding_show = true
 				var command
-				if(passageway == 'L1'){
+				if (passageway == 'L1') {
 					command = '0x01'
-				}else if(passageway == 'L2'){
+				} else if (passageway == 'L2') {
 					command = '0x02'
-				}else if(passageway == 'R1'){
+				} else if (passageway == 'R1') {
 					command = '0x03'
-				}else if(passageway == 'R2'){
+				} else if (passageway == 'R2') {
 					command = '0x04'
-				}else if(passageway == 'all'){
+				} else if (passageway == 'all') {
 					command = '0x05'
 				}
-				console.log(command);
-				this.getBLEDeviceCharacteristics()
-				
+
+				this.getBLEDeviceCharacteristics(command)
+				this.loding_show = false
+				this.calibration_show = false
 			},
 			//跳转关于页面
 			abouts() {
@@ -352,14 +398,14 @@
 			var _this = this
 			this.touxiang = uni.getStorageSync('touxiang')
 			var ble_link = uni.getStorageSync('ble_link')
-			 uni.getStorage({
-				key:'link_ble_info',
-				success:function(res){
+			uni.getStorage({
+				key: 'link_ble_info',
+				success: function(res) {
 					_this.ble_info = res.data
 				}
 			})
 			//判断蓝牙是否连接
-			if(ble_link.connected == true){
+			if (ble_link.connected == true) {
 				//蓝牙已经连接,无需重复连接
 				uni.openBluetoothAdapter({
 					success() {
@@ -367,21 +413,21 @@
 						uni.getBLEDeviceServices({
 							deviceId: _this.ble_info.deviceId,
 							success(res) {
-								_this.ble_services =res.services
+								_this.ble_services = res.services
 								res.services.forEach((item) => {
-									console.log("进入循环" +item.uuid);
-									if (item.uuid.indexOf("8653000A") !=-1) {
-										_this.serviceId =item.uuid;
-										
+									console.log("进入循环" + item.uuid);
+									if (item.uuid.indexOf("8653000A") != -1) {
+										_this.serviceId = item.uuid;
+
 									}
 								})
-								
+
 							}
 						})
-						}
-						}, 1000)
+					}
+				}, 1000)
 			}
-			
+
 
 			//蓝牙连接状态监听
 			uni.onBLEConnectionStateChange(function(res) {
