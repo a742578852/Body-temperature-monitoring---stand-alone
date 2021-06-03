@@ -326,6 +326,7 @@
 			})
 			//蓝牙开关状态监听
 			uni.onBluetoothAdapterStateChange(function(res) {
+				uni.setStorageSync('ava',res.available)
 				if (res.available == true) {
 					_this.popubShow = false
 				} else {

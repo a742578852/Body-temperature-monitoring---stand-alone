@@ -227,67 +227,73 @@
 										
 										  //数据解析
 										  var linData = ab2hex(res.value)
-										  //获取左腋下
-										  var leftArmpit = hex2int(linData.substring(2,4))+'.'+(linData.substring(4,6))
-										  //获取左体表
-										  var leftBody = hex2int(linData.substring(6,8))+'.'+(linData.substring(8,10))
-										//获取右腋下
-										  var rightArmpit = hex2int(linData.substring(10,12))+'.'+(linData.substring(12,14))
-										//获取右体表
-										  var rightBody = hex2int(linData.substring(14,16))+'.'+(linData.substring(16,18))
-										  //获取湿度
-										  var humidity = hex2int(linData.substring(18,20))
-										  //获取电量
-										  var electric = hex2int(linData.substring(20,22))
-										  //存入缓存 
-										  var date = new Date()
-										  var data = {'leftArmpit':leftArmpit,'leftBody':leftBody,'rightArmpit':rightArmpit,
-										  'rightBody':rightBody,'humidity':humidity,'electric':electric,'motion_state':_this.motion_state,
-										  'date':date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()}
-
-										  var history = uni.getStorageSync("historyData") 
-										  if(history == null || history == ''){
-											  history = new Array()
+										  if(linData.length >6){
+											  //获取左腋下
+											    var leftArmpit = hex2int(linData.substring(2,4))+'.'+(linData.substring(4,6))
+											    //获取左体表
+											    var leftBody = hex2int(linData.substring(6,8))+'.'+(linData.substring(8,10))
+											  //获取右腋下
+											    var rightArmpit = hex2int(linData.substring(10,12))+'.'+(linData.substring(12,14))
+											  //获取右体表
+											    var rightBody = hex2int(linData.substring(14,16))+'.'+(linData.substring(16,18))
+											    //获取湿度
+											    var humidity = hex2int(linData.substring(18,20))
+											    //获取电量
+											    var electric = hex2int(linData.substring(20,22))
+											    //存入缓存 
+											    var date = new Date()
+											    var data = {'leftArmpit':leftArmpit,'leftBody':leftBody,'rightArmpit':rightArmpit,
+											    'rightBody':rightBody,'humidity':humidity,'electric':electric,'motion_state':_this.motion_state,
+											    'date':date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()}
+											  
+											    var history = uni.getStorageSync("historyData") 
+												console.log('历史数据'+history);
+											    if(history == null || history == ''){
+											  	  history = new Array()
+											    }
+											  									
+											    history.unshift(data)
+												
+											    _this.historyData = history
+												uni.setStorageSync('historyData',_this.historyData)
+											    _this.chartData.series[0].data=[]
+											    _this.chartData.series[1].data=[]
+											    _this.chartData.series[2].data=[]
+											    _this.chartData.series[3].data=[]
+											    _this.chartData.categories = []
+											    
+											    _this.chartData1.series[0].data=[]
+											    _this.chartData1.series[1].data=[]
+											    _this.chartData1.categories = []
+											    //往统计图中放数据
+											    for(var i = 0;i<5;i++){
+											  	  _this.chartData.categories.push('')
+											  	  _this.chartData.series[0].data.push(_this.historyData[i].leftArmpit)  
+											  	  _this.chartData.series[1].data.push(_this.historyData[i].leftBody)
+											  	  _this.chartData.series[2].data.push(_this.historyData[i].rightArmpit)
+											  	  _this.chartData.series[3].data.push(_this.historyData[i].rightBody)
+											  	  //温差数组
+											  	  _this.chartData1.categories.push('')
+											  	  _this.chartData1.series[0].data.push(Math.abs((_this.historyData[i].leftArmpit - _this.historyData[i].rightArmpit).toString().substring(0,5)))
+											  	  _this.chartData1.series[1].data.push(Math.abs((_this.historyData[i].leftBody - _this.historyData[i].rightBody).toString().substring(0,5)))
+											    }
+											  	//左体表温度
+											  	_this.leftBody = _this.historyData[0].leftBody
+											  	//右体表温度
+											  	_this.rightBody = _this.historyData[0].rightBody
+											  	//左腋下温度
+											  	_this.leftArmpit = _this.historyData[0].leftArmpit
+											  	//右腋下温度
+											  	_this.rightArmpit = _this.historyData[0].rightArmpit
+											  	//体表温差
+											    _this.bodyDisparity = Math.abs((_this.historyData[0].leftBody - _this.historyData[0].rightBody).toString().substring(0,5))
+											  	//腋下温差
+											    _this.armpitDisparity = Math.abs((_this.historyData[0].leftArmpit - _this.historyData[0].rightArmpit).toString().substring(0,5))
+											    _this.shidu = _this.historyData[0].humidity
+												console.log(_this.historyData);
+											 
 										  }
-										console.log(history);
-										  history.unshift(data)
-										  _this.historyData = history
-										  _this.chartData.series[0].data=[]
-										  _this.chartData.series[1].data=[]
-										  _this.chartData.series[2].data=[]
-										  _this.chartData.series[3].data=[]
-										  _this.chartData.categories = []
-										  
-										  _this.chartData1.series[0].data=[]
-										  _this.chartData1.series[1].data=[]
-										  _this.chartData1.categories = []
-										  //往统计图中放数据
-										  for(var i = 0;i<5;i++){
-											  _this.chartData.categories.push('')
-											  _this.chartData.series[0].data.push(_this.historyData[i].leftArmpit)  
-											  _this.chartData.series[1].data.push(_this.historyData[i].leftBody)
-											  _this.chartData.series[2].data.push(_this.historyData[i].rightArmpit)
-											  _this.chartData.series[3].data.push(_this.historyData[i].rightBody)
-											  //温差数组
-											  _this.chartData1.categories.push('')
-											  _this.chartData1.series[0].data.push(Math.abs((_this.historyData[i].leftArmpit - _this.historyData[i].rightArmpit).toString().substring(0,5)))
-											  _this.chartData1.series[1].data.push(Math.abs((_this.historyData[i].leftBody - _this.historyData[i].rightBody).toString().substring(0,5)))
-										  }
-											//左体表温度
-											_this.leftBody = _this.historyData[0].leftBody
-											//右体表温度
-											_this.rightBody = _this.historyData[0].rightBody
-											//左腋下温度
-											_this.leftArmpit = _this.historyData[0].leftArmpit
-											//右腋下温度
-											_this.rightArmpit = _this.historyData[0].rightArmpit
-											//体表温差
-										  _this.bodyDisparity = Math.abs((_this.historyData[0].leftBody - _this.historyData[0].rightBody).toString().substring(0,5))
-											//腋下温差
-										  _this.armpitDisparity = Math.abs((_this.historyData[0].leftArmpit - _this.historyData[0].rightArmpit).toString().substring(0,5))
-										  _this.shidu = _this.historyData[0].humidity
-
-										  uni.setStorageSync('historyData',_this.historyData)
+										
 										  
 										})
 
@@ -518,30 +524,5 @@ console.log('546464545');
 			}
 		}
 	}
-.wrap {
-		padding: 24rpx;
-	}
-
-	.u-row {
-		margin: 40rpx 0;
-	}
-
-	.demo-layout {
-		height: 80rpx;
-		border-radius: 8rpx;
-	}
-
-	.bg-purple {
-		background: #d3dce6;
-	}
-
-	.bg-purple-light {
-		background: #e5e9f2;
-	}
-
-	.bg-purple-dark {
-		background: #99a9bf;
-	}
-</style>
 
 </style>
