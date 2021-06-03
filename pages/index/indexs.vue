@@ -250,7 +250,7 @@
 											  history = new Array()
 										  }
 										console.log(history);
-										  history.push(data)
+										  history.unshift(data)
 										  _this.historyData = history
 										  _this.chartData.series[0].data=[]
 										  _this.chartData.series[1].data=[]
