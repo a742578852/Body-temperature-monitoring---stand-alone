@@ -173,7 +173,13 @@
 			},
 			btn(){
 				uni.setStorageSync("name",this.name)
-				
+				if(uni.getStorageSync('sexindex'==0)){
+					uni.setStorageSync('sex','男')
+				}else if(uni.getStorageSync('sexindex'==1)){
+					uni.setStorageSync('sex','女')
+				}else{
+					uni.setStorageSync('sex','男')
+				}
 				uni.setStorageSync("age",this.age)
 				uni.setStorageSync("height",this.height)
 				uni.setStorageSync("weight",this.weight)

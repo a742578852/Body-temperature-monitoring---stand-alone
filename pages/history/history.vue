@@ -24,7 +24,7 @@
 				<view class="table-item">{{sd}}</view>
 				<view class="table-item">{{zt}}</view>
 			</view>
-			<view class="table-data" v-for="(item,index) in dataList">
+			<view class="table-data" v-for="(item,index) in dataLists">
 				<view class="table-data-item">{{index+1}}</view>
 				<view class="table-data-item">{{item.date}}</view>
 				<view class="table-data-item">{{item.leftArmpit}}</view>
@@ -35,8 +35,14 @@
 				<view class="table-data-item">{{item.motion_state}}</view>
 			</view>
 		</scroll-view>
+		<view class="" style="width: 80%; display: flex;justify-content: space-between">
+			<button type="default" @click="up" >上一页</button>
+			<button type="default" @click="next">下一页</button>
+		</view>
 		
-		 
+		 <view>
+		 		<u-toast ref="uToast" />
+		 	</view>
 	</view>
 </template>
 
@@ -82,10 +88,45 @@
 						},
 					],
 				},
-				dataList:[]
+				dataList:[],
+				dataLists:[],
+				is:0,
+				iss:15
 			}
 		},
 		methods: {
+			//分页-下一页
+			next(){
+				if(this.iss+15 <= this.dataList.length){
+					this.is += 15
+					this.iss += 15
+				this.dataLists = []
+					for(var i=this.is;i<this.iss;i++){
+						this.dataLists.push(this.dataList[i])
+					}
+				}else{
+					this.showToast()
+				}
+			},
+			showToast() {
+				this.$refs.uToast.show({
+					title: '没有更多数据了！！！',
+					
+				})
+			},
+			//分页-上一页
+			up(){
+				if(this.is-15 >=0){
+					this.is -= 15
+					this.iss -= 15
+				this.dataLists = []
+					for(var i=this.is;i<this.iss;i++){
+						this.dataLists.push(this.dataList[i])
+					}
+				}else{
+					this.showToast()
+				}
+			},
 			confirm() {
 				//清空数据js
 				this.dataList = []
@@ -356,7 +397,11 @@
 			}
 		},
 		onShow() {
-			this.dataList = uni.getStorageSync('historyData')
+			 this.dataList = uni.getStorageSync('historyData')
+			// this.dataLists = uni.getStorageSync('historyData')
+			for(var i=this.is;i<this.iss;i++){
+				this.dataLists.push(this.dataList[i])
+			}
 			var indexYy = uni.getStorageSync('indexYy')
 			// if (indexYy == 1) {
 			// 	this.dcsj = 'Export data'
