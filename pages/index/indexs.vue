@@ -247,7 +247,7 @@
 											    'date':date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()}
 											  
 											    var history = uni.getStorageSync("historyData") 
-												console.log('历史数据'+history);
+												
 											    if(history == null || history == ''){
 											  	  history = new Array()
 											    }
@@ -265,6 +265,21 @@
 											    _this.chartData1.series[0].data=[]
 											    _this.chartData1.series[1].data=[]
 											    _this.chartData1.categories = []
+												
+												//左体表温度
+												_this.leftBody = _this.historyData[0].leftBody
+												//右体表温度
+												_this.rightBody = _this.historyData[0].rightBody
+												//左腋下温度
+												_this.leftArmpit = _this.historyData[0].leftArmpit
+												//右腋下温度
+												_this.rightArmpit = _this.historyData[0].rightArmpit
+												//体表温差
+												_this.bodyDisparity = Math.abs((_this.historyData[0].leftBody - _this.historyData[0].rightBody).toString().substring(0,5))
+												//腋下温差
+												_this.armpitDisparity = Math.abs((_this.historyData[0].leftArmpit - _this.historyData[0].rightArmpit).toString().substring(0,5))
+												_this.shidu = _this.historyData[0].humidity
+												
 											    //往统计图中放数据
 											    for(var i = 0;i<5;i++){
 											  	  _this.chartData.categories.push('')
@@ -277,20 +292,8 @@
 											  	  _this.chartData1.series[0].data.push(Math.abs((_this.historyData[i].leftArmpit - _this.historyData[i].rightArmpit).toString().substring(0,5)))
 											  	  _this.chartData1.series[1].data.push(Math.abs((_this.historyData[i].leftBody - _this.historyData[i].rightBody).toString().substring(0,5)))
 											    }
-											  	//左体表温度
-											  	_this.leftBody = _this.historyData[0].leftBody
-											  	//右体表温度
-											  	_this.rightBody = _this.historyData[0].rightBody
-											  	//左腋下温度
-											  	_this.leftArmpit = _this.historyData[0].leftArmpit
-											  	//右腋下温度
-											  	_this.rightArmpit = _this.historyData[0].rightArmpit
-											  	//体表温差
-											    _this.bodyDisparity = Math.abs((_this.historyData[0].leftBody - _this.historyData[0].rightBody).toString().substring(0,5))
-											  	//腋下温差
-											    _this.armpitDisparity = Math.abs((_this.historyData[0].leftArmpit - _this.historyData[0].rightArmpit).toString().substring(0,5))
-											    _this.shidu = _this.historyData[0].humidity
-												console.log(_this.historyData);
+											  
+											
 											 
 										  }
 										
