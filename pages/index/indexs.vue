@@ -68,8 +68,8 @@
 			<u-toast ref="uToast" />
 		</view>
 		<view class="topTj">
-			<view class="wdtj" @click="dianji">温度</view>
-			<view class="wctj" @click="dianjis">温差</view>
+			<view class="wdtj"  @click="dianji" :class="{changeColor1: this.bian1==1}">温度</view>
+			<view class="wctj" @click="dianjis" :class="{changeColor1: this.bian2==1}">温差</view>
 		</view>
 		<view class="tj" v-if="state">
 			<view class="charts-box">
@@ -102,7 +102,7 @@
 		
 		<!--返回监控按钮-->
 		<view >
-			<u-button @click="resType" shape="circle" size="medium"  :ripple="true" style="background-color:#4a5cd0 ;color: #FFFFFF;width: 80%;margin-left: 10%;">选择状态</u-button>
+			<u-button @click="resType" shape="circle" size="medium"  :ripple="true" style="background-color:#4a5cd0 ;color: #FFFFFF;width: 80%;margin-left: 10%;margin-bottom: 50upx;">选择状态</u-button>
 		</view>
 
 	</view>
@@ -112,6 +112,8 @@
 	export default {
 		data() {
 			return {
+				bian1:'0',
+				bian2:'0',
 				popubShow:false,
 				shidu:'',
 				state:true,
@@ -154,7 +156,7 @@
 							"data": []
 						},
 						{
-							"name": "右腋下",
+							"name": "右体表",
 							"data": []
 						},
 					],
@@ -186,10 +188,14 @@
 			dianji(){
 				this.state = true
 				this.state1 = false
+				this.bian1 = 1
+				this.bian2 = 0
 			},
 			dianjis(){
 				this.state = false
 				this.state1 = true
+				this.bian1 = 0
+				this.bian2 = 1
 			},
 			resType(){
 				uni.navigateTo({
@@ -304,22 +310,22 @@
 												//右腋下温度
 												_this.rightArmpit = _this.historyData[0].rightArmpit
 												//体表温差
-												_this.bodyDisparity = Math.abs((_this.historyData[0].leftBody - _this.historyData[0].rightBody).toString().substring(0,5))
+												_this.bodyDisparity = (Math.abs(((_this.historyData[0].leftBody)*100 - (_this.historyData[0].rightBody)*100)/100)).toString().substring(0,4)
 												//腋下温差
-												_this.armpitDisparity = Math.abs((_this.historyData[0].leftArmpit - _this.historyData[0].rightArmpit).toString().substring(0,5))
+												_this.armpitDisparity = (Math.abs(((_this.historyData[0].leftArmpit)*100 - (_this.historyData[0].rightArmpit)*100)/100)).toString().substring(0,4)
 												_this.shidu = _this.historyData[0].humidity
 												
 											    //往统计图中放数据
 											    for(var i = 0;i<5;i++){
 											  	  _this.chartData.categories.push('')
 											  	  _this.chartData.series[0].data.push(_this.historyData[i].leftArmpit)  
-											  	  _this.chartData.series[1].data.push(_this.historyData[i].leftBody)
-											  	  _this.chartData.series[2].data.push(_this.historyData[i].rightArmpit)
+											  	  _this.chartData.series[1].data.push(_this.historyData[i].rightArmpit)
+											  	  _this.chartData.series[2].data.push(_this.historyData[i].leftBody)
 											  	  _this.chartData.series[3].data.push(_this.historyData[i].rightBody)
 											  	  //温差数组
 											  	  _this.chartData1.categories.push('')
-											  	  _this.chartData1.series[0].data.push(Math.abs((_this.historyData[i].leftArmpit - _this.historyData[i].rightArmpit).toString().substring(0,5)))
-											  	  _this.chartData1.series[1].data.push(Math.abs((_this.historyData[i].leftBody - _this.historyData[i].rightBody).toString().substring(0,5)))
+											  	  _this.chartData1.series[0].data.push((Math.abs(((_this.historyData[i].leftArmpit)*100 - (_this.historyData[i].rightArmpit)*100)/100)).toString().substring(0,4))
+											  	  _this.chartData1.series[1].data.push((Math.abs(((_this.historyData[i].leftBody)*100 - (_this.historyData[i].rightBody)*100)/100)).toString().substring(0,4))
 											    }
 											  
 											
@@ -555,22 +561,22 @@ console.log('546464545');
 	//右腋下温度
 	_this.rightArmpit = _this.historyData[0].rightArmpit
 	//体表温差
-	_this.bodyDisparity = Math.abs((_this.historyData[0].leftBody - _this.historyData[0].rightBody).toString().substring(0,5))
+	_this.bodyDisparity = (Math.abs(((_this.historyData[0].leftBody)*100 - (_this.historyData[0].rightBody)*100)/100)).toString().substring(0,4)
 	//腋下温差
-	_this.armpitDisparity = Math.abs((_this.historyData[0].leftArmpit - _this.historyData[0].rightArmpit).toString().substring(0,5))
+	_this.armpitDisparity = (Math.abs(((_this.historyData[0].leftArmpit)*100 - (_this.historyData[0].rightArmpit)*100)/100)).toString().substring(0,4)
 	_this.shidu = _this.historyData[0].humidity
 	
 	//往统计图中放数据
 	for(var i = 0;i<5;i++){
 	  _this.chartData.categories.push('')
-	  _this.chartData.series[0].data.push(_this.historyData[i].leftArmpit)  
-	  _this.chartData.series[1].data.push(_this.historyData[i].leftBody)
-	  _this.chartData.series[2].data.push(_this.historyData[i].rightArmpit)
+	  _this.chartData.series[0].data.push(_this.historyData[i].leftArmpit)
+	  _this.chartData.series[1].data.push(_this.historyData[i].rightArmpit)
+	  _this.chartData.series[2].data.push(_this.historyData[i].leftBody)
 	  _this.chartData.series[3].data.push(_this.historyData[i].rightBody)
 	  //温差数组
 	  _this.chartData1.categories.push('')
-	  _this.chartData1.series[0].data.push(Math.abs((_this.historyData[i].leftArmpit - _this.historyData[i].rightArmpit).toString().substring(0,5)))
-	  _this.chartData1.series[1].data.push(Math.abs((_this.historyData[i].leftBody - _this.historyData[i].rightBody).toString().substring(0,5)))
+	  _this.chartData1.series[0].data.push((Math.abs(((_this.historyData[i].leftArmpit)*100 - (_this.historyData[i].rightArmpit)*100)/100)).toString().substring(0,4))
+	  _this.chartData1.series[1].data.push((Math.abs(((_this.historyData[i].leftBody)*100 - (_this.historyData[i].rightBody)*100)/100)).toString().substring(0,4))
 	}
 			}
 											
@@ -581,8 +587,10 @@ console.log('546464545');
 </script>
 
 <style lang="scss">
+	
 	#main {
 		.tj {
+			margin-top: 30upx;
 			width: 100%;
 			height: 650upx;
 			/* 请根据需求修改图表容器尺寸，如果父容器没有高度图表则会显示异常 */
@@ -593,25 +601,31 @@ console.log('546464545');
 		}
 		.topTj {
 			margin-top: 20upx;
-			margin-left: 30%;
-			width: 40%;
+			margin-left: 25%;
+			width: 50%;
 			height: 60upx;
 			display: flex;
 			justify-content: space-between;
 			.wdtj {
 				text-align: center;
-				height: 45upx;
-				width: 85upx;
+				height: 70upx;
+				width: 120upx;
+				line-height: 70upx;
 				border: 1upx solid #55aaff;
 				border-radius: 20upx;
-				background-color: #55aaff;
+				background-color: #ffffff;
+				
 			}
 			.wctj {
 				text-align: center;
-				height: 45upx;
-				width: 85upx;
+				height: 70upx;
+				width: 120upx;
+				line-height: 70upx;
 				border: 1upx solid #55aaff;
 				border-radius: 20upx;
+				background-color: #ffffff;
+			}
+			.changeColor1 {
 				background-color: #55aaff;
 			}
 		}
