@@ -39,7 +39,7 @@
 			</view>
 			<u-avatar class="img" :src="touxiang" @click="grzl"></u-avatar>
 			<!-- <image class="img" :src="touxiang" @click="grzl"></image> -->
-			<text>张三</text>
+			<text>{{name}}</text>
 			<view class="div2">
 				<view class="div3" @click="shishi">
 					<image class="img" src="../../static/shishi.png"></image>
@@ -125,6 +125,7 @@
 	export default {
 		data() {
 			return {
+				name:'',
 				type: 'text',
 				border: true,
 				password_show: false, //密码输入框弹窗
@@ -398,6 +399,7 @@
 			var _this = this
 			this.touxiang = uni.getStorageSync('touxiang')
 			var ble_link = uni.getStorageSync('ble_link')
+			_this.name = uni.getStorageSync('name')
 			uni.getStorage({
 				key: 'link_ble_info',
 				success: function(res) {

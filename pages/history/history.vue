@@ -257,6 +257,14 @@
 						fontSize: '16px'
 					},
 					{
+						content: '备注',
+						color: 'blue',
+						type: 'text',
+						width: '500px',
+						height: '25px',
+						fontSize: '16px'
+					},
+					{
 						content: '采集时间',
 						color: 'blue',
 						type: 'text',
@@ -373,6 +381,14 @@
 
 								},
 								{
+									content: historyData[i].remarks,
+									color: 'blue',
+									type: 'text',
+									width: '500px',
+									height: '25px',
+									fontSize: '16px'
+								},
+								{
 									content: historyData[i].date,
 									color: 'blue',
 									type: 'text',
@@ -399,9 +415,7 @@
 		onShow() {
 			 this.dataList = uni.getStorageSync('historyData')
 			// this.dataLists = uni.getStorageSync('historyData')
-			for(var i=this.is;i<this.iss;i++){
-				this.dataLists.push(this.dataList[i])
-			}
+			
 			var indexYy = uni.getStorageSync('indexYy')
 			// if (indexYy == 1) {
 			// 	this.dcsj = 'Export data'
@@ -445,7 +459,12 @@
 				this.chartData.series[3].data.push(this.dataList[i].rightBody)
 				
 			}
-			
+			if(this.iss>this.dataList.length){
+				this.iss = this.dataList.length
+			}
+			for(var i=this.is;i<this.iss;i++){
+				this.dataLists.push(this.dataList[i])
+			}
 
 			
 		}

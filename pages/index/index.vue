@@ -112,6 +112,7 @@
 			},
 			back() {
 				uni.setStorageSync('motionState', this.index)
+				uni.setStorageSync('remarks',this.value)
 				uni.switchTab({
 					url: './indexs'
 				})

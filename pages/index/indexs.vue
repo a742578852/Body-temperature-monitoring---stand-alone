@@ -43,7 +43,7 @@
 						<view style="margin-top:50rpx;margin-left: 150rpx;color: #FFFFFF;font-size: 60rpx;">{{leftArmpit}}</view>
 					</view>
 					<view style="margin-left: 37rpx; margin-top: 30rpx; background-color: #7885dc;height: 190rpx;width: 320rpx;border-radius: 0 0 50rpx 0;">
-						<view style="margin-left: 30rpx;margin-top: 20rpx; color: #FFFFFF;">右体表(°C)</view>
+						<view style="margin-left: 30rpx;margin-top: 20rpx; color: #FFFFFF;">右腋下(°C)</view>
 						<view style="margin-top:50rpx;margin-left: 150rpx;color: #FFFFFF;font-size: 60rpx;">{{rightArmpit}}</view>
 					</view>
 				</view>
@@ -102,7 +102,7 @@
 		
 		<!--返回监控按钮-->
 		<view >
-			<u-button @click="resType" shape="circle" size="medium"  :ripple="true" style="background-color:#4a5cd0 ;color: #FFFFFF;width: 80%;margin-left: 10%;">结束监控</u-button>
+			<u-button @click="resType" shape="circle" size="medium"  :ripple="true" style="background-color:#4a5cd0 ;color: #FFFFFF;width: 80%;margin-left: 10%;">选择状态</u-button>
 		</view>
 
 	</view>
@@ -271,7 +271,8 @@
 											    'rightBody':rightBody,'humidity':humidity,'electric':electric,'motion_state':_this.motion_state,
 											    'date':date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds(),
 												'bodyDisparity':Math.abs((rightBody - leftBody).toString().substring(0,5)),
-												'armpitDisparity':Math.abs((leftArmpit - rightArmpit).toString().substring(0,5))}
+												'armpitDisparity':Math.abs((leftArmpit - rightArmpit).toString().substring(0,5)),
+												'remarks':uni.getStorageSync('remarks')}
 											  
 											    var history = uni.getStorageSync("historyData") 
 												
@@ -372,6 +373,11 @@
 			var _this = this
 			_this.wddw = uni.getStorageSync('wddw')
 			_this.motion_state = uni.getStorageSync('motionState')
+			if(_this.motion_state == null || _this.motion_state == ''){
+				uni.navigateTo({
+					url:'./index'
+				})
+			}
 			
 						
 			
