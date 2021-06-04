@@ -173,9 +173,9 @@
 			},
 			btn(){
 				uni.setStorageSync("name",this.name)
-				if(uni.getStorageSync('sexindex'==0)){
+				if(this.index==0){
 					uni.setStorageSync('sex','男')
-				}else if(uni.getStorageSync('sexindex'==1)){
+				}else if(this.index==1){
 					uni.setStorageSync('sex','女')
 				}else{
 					uni.setStorageSync('sex','男')
