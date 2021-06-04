@@ -112,7 +112,7 @@
 	export default {
 		data() {
 			return {
-				bian1:'0',
+				bian1:'1',
 				bian2:'0',
 				popubShow:false,
 				shidu:'',
