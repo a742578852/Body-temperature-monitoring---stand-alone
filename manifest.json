@@ -84,11 +84,11 @@
                 }
             },
             "splashscreen" : {
-                "androidStyle" : "default",
+                "androidStyle" : "common",
                 "android" : {
-                    "hdpi" : "C:/Users/PC/Desktop/res/drawable-hdpi/_1.9.png",
-                    "xhdpi" : "C:/Users/PC/Desktop/res/drawable-xhdpi/_1.9.png",
-                    "xxhdpi" : "C:/Users/PC/Desktop/res/drawable-xxhdpi/_1.9.png"
+                    "hdpi" : "",
+                    "xhdpi" : "",
+                    "xxhdpi" : ""
                 }
             }
         }

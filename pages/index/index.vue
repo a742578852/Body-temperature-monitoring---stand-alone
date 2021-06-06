@@ -134,7 +134,7 @@
 		border-radius: 30upx;
 		text-align: center;
 		line-height: 80upx;
-		background-color: #e0ffff;
+		background-color: #8aecff;
 		color: #1606ff;
 	}
 </style>

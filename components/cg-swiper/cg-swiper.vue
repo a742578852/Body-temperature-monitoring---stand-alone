@@ -74,7 +74,7 @@ export default {
 	height: 220upx;
 	border: 1upx solid #000000;
 	border-radius: 10upx;
-	background-color: #e0ffff;
+	background-color: #ffffff;
 	.text {
 		font-weight: 800;
 		font-size: 38upx;
@@ -85,7 +85,7 @@ export default {
 	}
 }
 .changeColor1 {
-		background-color: #ff0000;
+		background-color: #8aecff;
 	}
 .swiper-img {
 	width: 110upx;

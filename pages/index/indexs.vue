@@ -387,7 +387,6 @@
 			
 						
 			
-console.log('546464545');
 			//数据上报
 			//蓝牙连接操作
 			//判断蓝牙有无连接设备
@@ -398,12 +397,15 @@ console.log('546464545');
 					console.log(res);
 					//判断是否是初次连接
 					if (res.data == null || res.data == '') {
+						
+					setTimeout(() => {	
 						var toast_info = {
 							'title': '请先连接蓝牙',
 							'type': 'sucess',
 							'url': '/pages/mine/bluetooth/bluetoothFind'
 						}
 						_this.showToast(toast_info)
+						},60000)
 					} else {
 						_this.ble_info = res.data
 						console.log('蓝牙连接信息');
@@ -449,16 +451,18 @@ console.log('546464545');
 								success() {
 									uni.createBLEConnection({
 										deviceId: _this.ble_info.deviceId,
-										timeout: 6000,
+										timeout: 1000,
 										fail(res) {
 											console.log(res);
-
-											var toast_info = {
-												'title': '蓝牙连接失败,请重新选择设备',
-												'type': 'sucess',
-												'url': '/pages/mine/bluetooth/bluetoothFind'
-											}
-											_this.showToast(toast_info)
+											setTimeout(()=>{
+												var toast_info = {
+													'title': '蓝牙连接失败,请重新选择设备',
+													'type': 'sucess',
+													'url': '/pages/mine/bluetooth/bluetoothFind'
+												}
+												_this.showToast(toast_info)
+											},60000)
+											
 										},
 										success() {
 											//获取所有服务
@@ -521,14 +525,14 @@ console.log('546464545');
 			// })
 			
 			//蓝牙开关状态监听
-			uni.onBluetoothAdapterStateChange(function(res) {
-				uni.setStorageSync('ava',res.available)
-				if (res.available == true) {
-					_this.popubShow = false
-				} else {
-					_this.popubShow = true
-				}
-			})
+			// uni.onBluetoothAdapterStateChange(function(res) {
+			// 	uni.setStorageSync('ava',res.available)
+			// 	if (res.available == true) {
+			// 		_this.popubShow = false
+			// 	} else {
+			// 		_this.popubShow = true
+			// 	}
+			// })
 		},
 		onLoad: function() {
 			var _this = this
