@@ -19,13 +19,17 @@
 					<i class="fa fa-bell"></i>
 				</div>
 			</div>
-			<view style="position: relative ;top:-400upx;right: -180upx;">
-				<image src="../../../static/tiwenji.png" style="width: 120upx;height: 270upx;"></image>
-			</view>
+			
 
 		</div>
+		
+		<!--体温计图片-->
+		<view style="width: 50%;margin-left: 45%;margin-top: -260rpx;">
+			<image src="../../../static/tiwenji.png" style="width: 120upx;height: 270upx;"></image>
+		</view>
+		
 		<!--可用设备-->
-		<view style="margin-bottom: 50rpx;margin-left: 25rpx;font-size: 45rpx;">
+		<view style="margin-top: 100rpx;margin-left: 25rpx;font-size: 45rpx;">
 			{{keyong}}
 
 		</view>
@@ -355,7 +359,7 @@
 	.container {
 		position: relative;
 		top: 80upx;
-		left: 20%;
+		left: 25%;
 		width: 40%;
 		height: 40%;
 	}
