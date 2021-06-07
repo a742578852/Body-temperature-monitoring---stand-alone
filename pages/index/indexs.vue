@@ -87,28 +87,25 @@
 			  <qiun-data-charts
 			    type="demotype"
 			    :chartData="chartData"
-			    :loadingType="5"
-			    :errorShow="false"
-			    :inScrollView="true"
+			    :disableScroll="true"
 			    background="none"
 			    :ontouch="true"
 			  />
 			</view>
 		</view>
 		
+		
 		<!--温差表-->
-		<view class="tj">
-			<view class="charts-box" >
-			  <qiun-data-charts
-			    type="line"
-			    :chartData="chartData1"
-			    :loadingType="5"
-			    :errorShow="false"
-			    :inScrollView="true"
-			    background="none"
-			    :ontouch="true"
-			  />
-			</view>
+		<view class="tj" v-if="state1">
+			<view class="charts-box">
+			    <qiun-data-charts
+			      type="line"
+			      :chartData="chartData1"
+			      :disableScroll="true"
+			      background="none"
+			      :ontouch="true"
+			    />
+			  </view>
 		</view>
 		
 		
@@ -126,7 +123,6 @@
 	export default {
 		data() {
 			return {
-				isshow:0,
 				ble_type:'未连接',
 				bluShow:false,//模态框
 				content:'设备自动连接失败,是否进入手动连接',
@@ -222,19 +218,27 @@
 			dianji(e){
 				if(e == 0){
 					this.bian1 = 1
-					this.bian2 = 0				
+					this.bian2 = 0
 					this.state = true
-					this.state1 = false	
+					this.state1 = false
 				}else{
 					this.bian1 = 0
 					this.bian2 = 1
-					this.state = false
-					this.state1 = true
+					
+								
+						this.state = false
+						this.state1 = true
 				}
 				
 	
 			},
+			dianjis(){
+				
+				
+				
+				
 			
+			},
 			resType(){
 				uni.navigateTo({
 					url:'./index'
@@ -656,6 +660,16 @@
 			}
 		}
 		
+		.tj1 {
+			margin-top: 30upx;
+			width: 100%;
+			height: 650upx;
+			/* 请根据需求修改图表容器尺寸，如果父容器没有高度图表则会显示异常 */
+			.charts-box{
+			  width: 100%;
+			  height:300px;
+			}
+		}
 		.topTj {
 			margin-top: 20upx;
 			margin-left: 25%;
@@ -685,7 +699,6 @@
 			.changeColor1 {
 				background-color: #55aaff;
 			}
-			
 		}
 	}
 
