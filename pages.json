@@ -98,14 +98,14 @@
 			{
 				"pagePath":"pages/index/indexs",
 				"text":"首页",
-				"iconPath":"static/home.png",
-				"selectedIconPath":"static/home-selected.png"
+				"iconPath":"static/whiteHome.png",
+				"selectedIconPath":"static/blueHome.png"
 			},
 			{
 				"pagePath":"pages/mine/mine",
 				"text":"我的",
-				"iconPath":"static/user.png",
-				"selectedIconPath":"static/nick.png"
+				"iconPath":"static/whiteMe.png",
+				"selectedIconPath":"static/blueMe.png"
 			}
 	
 		]
