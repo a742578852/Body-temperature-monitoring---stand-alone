@@ -361,6 +361,7 @@ export default {
       echartsOpts: {},
       drawData:{},
       lastDrawTime:null,
+	 
     };
   },
   created(){

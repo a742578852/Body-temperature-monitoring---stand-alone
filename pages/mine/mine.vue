@@ -53,9 +53,10 @@
 		</view>
 		<text style="margin-top: 30upx;">{{wdsb}}</text>
 		<view class="div5">
+			<!--电量-->
 			<view class="cu-form-group">
 				<view class="title" style="width: 290upx;">{{twj}}:</view>
-				<input name="input" disabled="">{{dl}} 100%</input>
+				<input name="input" disabled="">{{dl}} %</input>
 			</view>
 			<view class="cu-form-group" @click="ghsb">
 				<view class="title" style="padding-left: 33%;">+ {{ghsbb}}</view>
@@ -63,10 +64,11 @@
 		</view>
 		<text style="margin-top: 30upx;">{{gdsz}}</text>
 		<view class="div6">
+			<!--采集频率-->
 			<view class="cu-form-group">
 				<view class="title">{{cjpl}}:</view>
 				<picker @change="bindPickerChange" :value="index" :range="arrayCjpl" class="item2" style="width: 100%;">
-					<view class="uni-input" style="width: 100%;">{{arrayCjpl[index]}} s</view>
+					<view class="uni-input" style="width: 100%;">{{arrayCjpl[index]}} </view>
 				</picker>
 				<u-icon name="arrow-right"></u-icon>
 			</view>
@@ -155,7 +157,7 @@
 				index3: 0,
 				index4: 0,
 				arrayTzdw: ['千克', '磅'],
-				arrayCjpl: ['500', '600'],
+				arrayCjpl: ['10s', '50s','100s','500s','1000s','3000s'],//采集频率
 				arrayWddw: ['摄氏度', '华氏度'],
 				arrayRl: ['阳历', '农历'],
 				arrayYy: ['中文', 'English'],
@@ -294,8 +296,64 @@
 				})
 			},
 			bindPickerChange(e) {
+				var _this = this
 				console.log('picker发送选择改变，携带值为', e.target.value)
 				this.index = e.target.value
+				var frequency = this.arrayCjpl[this.index] //频率
+				
+				setTimeout(() => {
+					uni.getBLEDeviceCharacteristics({
+						deviceId: _this.ble_info.deviceId,
+						serviceId: _this.serviceId,
+						success(res) {
+							console.log(res);
+							res.characteristics.forEach((item) => {
+								console.log('获取所有char');
+								if (item.uuid.indexOf('8653000B') != -1) {
+									const buffer = new ArrayBuffer(2)
+									const dataView = new DataView(buffer)
+									dataView.setUint8(0, 0x01)
+									dataView.setUint8(1, 0x012c)
+									console.log(_this.deviceId + _this.serviceId + item.uuid);
+									uni.writeBLECharacteristicValue({
+										deviceId: _this.ble_info.deviceId,
+										serviceId: _this.serviceId,
+										characteristicId: item.uuid,
+										value: buffer,
+										success(res) {
+											var toast_info = {
+												'title': '采集频率成功',
+												'type': 'success',
+											}
+											_this.showToast(toast_info)
+											console.log(res);
+										},
+										fail(res) {
+											var toast_info = {
+												'title': '设备写入数据失败,请检查蓝牙连接',
+												'type': 'warning',
+											}
+											_this.showToast(toast_info)
+											console.log(res);
+										}
+				
+									})
+				
+								}
+							})
+						},
+						fail(res) {
+							var toast_info = {
+								'title': '蓝牙特征值获取失败,请检查蓝牙连接',
+								'type': 'warning',
+							}
+							_this.showToast(toast_info)
+							console.log(res);
+						}
+					})
+				
+				}, 1000)
+				
 			},
 			bindPickerChange1(e) {
 				console.log('picker发送选择改变，携带值为', e.target.value)
@@ -400,6 +458,10 @@
 			this.touxiang = uni.getStorageSync('touxiang')
 			var ble_link = uni.getStorageSync('ble_link')
 			_this.name = uni.getStorageSync('name')
+			//获取电量
+			var history = uni.getStorageSync("historyData")
+			 this.dl = history[0].electric
+			
 			uni.getStorage({
 				key: 'link_ble_info',
 				success: function(res) {

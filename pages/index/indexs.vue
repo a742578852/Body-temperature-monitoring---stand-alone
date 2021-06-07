@@ -2,6 +2,13 @@
 	
 		<view id="main">
 			
+			<view>
+					<u-modal v-model="bluShow" :content="content" :async-close="true" @confirm="open()" show-cancel-button=true></u-modal>
+				
+				</view>
+				
+				
+			
 			<!--提醒弹出框-->
 			<view>
 				<div>
@@ -22,11 +29,14 @@
 			<view style="background-color: #4a5cd0;height: 700rpx;">
 			<!--状态-->
 			<view style="width: 75%; padding-top:30rpx;display: flex;justify-content: space-between;margin-left: 12%;">
-				<view style="color: #FFFFFF;font-size: 30rpx;">状态: {{motion_state}}</view>
-				<view style="color: #FFFFFF;font-size: 30rpx;">湿度: {{shidu}}</view>
+				<view style="color: #FFFFFF;font-size: 25rpx;">状态: {{motion_state}}</view>
+				<view style="color: #FFFFFF;font-size: 25rpx;" @click="to_blue()">设备状态: {{ble_type}}</view>
+				<view style="color: #FFFFFF;font-size: 25rpx;">湿度: {{shidu}}</view>
 			</view>
+			
 			<!--四个温度显示-->
 			<view>
+				
 					<view style="display: flex;">
 						<view style="margin-left: 37rpx; margin-top: 30rpx; background-color: #7885dc;height: 190rpx;width: 320rpx;border-radius: 50rpx 0 0 0;">
 							<view style="margin-left: 30rpx;margin-top: 20rpx; color: #FFFFFF;">左体表(°C)</view>
@@ -68,9 +78,10 @@
 			<u-toast ref="uToast" />
 		</view>
 		<view class="topTj">
-			<view class="wdtj"  @click="dianji" :class="{changeColor1: this.bian1==1}">温度</view>
-			<view class="wctj" @click="dianjis" :class="{changeColor1: this.bian2==1}">温差</view>
+			<view class="wdtj"  @click="dianji(0)" :class="{changeColor1: this.bian1==1}">温度</view>
+			<view class="wctj" @click="dianji(1)" :class="{changeColor1: this.bian2==1}">温差</view>
 		</view>
+		<!--温度表-->
 		<view class="tj" v-if="state">
 			<view class="charts-box">
 			  <qiun-data-charts
@@ -85,10 +96,11 @@
 			</view>
 		</view>
 		
-		<view class="tj" v-if="state1">
-			<view class="charts-box">
+		<!--温差表-->
+		<view class="tj">
+			<view class="charts-box" >
 			  <qiun-data-charts
-			    type="demotype"
+			    type="line"
 			    :chartData="chartData1"
 			    :loadingType="5"
 			    :errorShow="false"
@@ -98,6 +110,8 @@
 			  />
 			</view>
 		</view>
+		
+		
 		
 		
 		<!--返回监控按钮-->
@@ -112,7 +126,11 @@
 	export default {
 		data() {
 			return {
-				bian1:'1',
+				isshow:0,
+				ble_type:'未连接',
+				bluShow:false,//模态框
+				content:'设备自动连接失败,是否进入手动连接',
+				bian1:'1', 
 				bian2:'0',
 				popubShow:false,
 				shidu:'',
@@ -178,6 +196,22 @@
 			}
 		},
 		methods: {
+			to_blue(){
+				if(this.ble_type == '未连接'){
+					uni.navigateTo({
+						url:'../mine/bluetooth/bluetoothFind'
+					})
+				}
+			},
+			open(){
+				//关闭
+				this.bluShow = false
+				//前往blue页面
+				uni.navigateTo({
+					url:'../mine/bluetooth/bluetoothFind'
+				})
+				
+			},
 			//跳转到手机设置页
 			cancel() {
 				var main = plus.android.runtimeMainActivity();
@@ -185,18 +219,22 @@
 				var mIntent = new Intent('android.settings.SETTINGS');
 				main.startActivity(mIntent);
 			},
-			dianji(){
-				this.state = true
-				this.state1 = false
-				this.bian1 = 1
-				this.bian2 = 0
+			dianji(e){
+				if(e == 0){
+					this.bian1 = 1
+					this.bian2 = 0				
+					this.state = true
+					this.state1 = false	
+				}else{
+					this.bian1 = 0
+					this.bian2 = 1
+					this.state = false
+					this.state1 = true
+				}
+				
+	
 			},
-			dianjis(){
-				this.state = false
-				this.state1 = true
-				this.bian1 = 0
-				this.bian2 = 1
-			},
+			
 			resType(){
 				uni.navigateTo({
 					url:'./index'
@@ -316,7 +354,7 @@
 												_this.shidu = _this.historyData[0].humidity
 												
 											    //往统计图中放数据
-											    for(var i = 0;i<5;i++){
+											    for(var i = 0;i<20;i++){
 											  	  _this.chartData.categories.push('')
 											  	  _this.chartData.series[0].data.push(_this.historyData[i].leftArmpit)  
 											  	  _this.chartData.series[1].data.push(_this.historyData[i].rightArmpit)
@@ -384,9 +422,7 @@
 					url:'./index'
 				})
 			}
-			
 						
-			
 			//数据上报
 			//蓝牙连接操作
 			//判断蓝牙有无连接设备
@@ -398,26 +434,26 @@
 					//判断是否是初次连接
 					if (res.data == null || res.data == '') {
 						
-					setTimeout(() => {	
-						var toast_info = {
-							'title': '请先连接蓝牙',
-							'type': 'sucess',
-							'url': '/pages/mine/bluetooth/bluetoothFind'
-						}
-						_this.showToast(toast_info)
-						},60000)
+					// setTimeout(() => {	
+						// var toast_info = {
+						// 	'title': '请先连接蓝牙',
+						// 	'type': 'sucess',
+						// 	'url': '/pages/mine/bluetooth/bluetoothFind'
+						// }
+						// _this.showToast(toast_info)
+						// },60000)
+						_this.bluShow = true
 					} else {
 						_this.ble_info = res.data
-						console.log('蓝牙连接信息');
 						//console.log('蓝牙连接状态'+_this.blelink);
 
 						//判断是否已连接
 						//if (_this.blelink.connected == false) {
 						//蓝牙未连接,根据id直接连接
 						const ble_link = uni.getStorageSync('ble_link')
-
 						console.log('蓝牙连接信息' + ble_link.connected);
 						if (ble_link.connected == true) {
+							_this.ble_type = '已连接'
 							//蓝牙已经连接,无需重复连接
 							uni.openBluetoothAdapter({
 								success() {
@@ -427,6 +463,9 @@
 											.ble_info
 											.deviceId,
 										success(res) {
+											
+											
+											
 											_this.ble_services =res.services
 											res.services.forEach((item) => {
 												console.log("进入循环" +item.uuid);
@@ -446,7 +485,6 @@
 					
 							//蓝牙未连接,重新连接
 						} else {
-
 							uni.openBluetoothAdapter({
 								success() {
 									uni.createBLEConnection({
@@ -454,17 +492,25 @@
 										timeout: 1000,
 										fail(res) {
 											console.log(res);
-											setTimeout(()=>{
-												var toast_info = {
-													'title': '蓝牙连接失败,请重新选择设备',
-													'type': 'sucess',
-													'url': '/pages/mine/bluetooth/bluetoothFind'
-												}
-												_this.showToast(toast_info)
-											},60000)
+											// setTimeout(()=>{
+											// 	var toast_info = {
+											// 		'title': '蓝牙连接失败,请重新选择设备',
+											// 		'type': 'sucess',
+											// 		'url': '/pages/mine/bluetooth/bluetoothFind'
+											// 	}
+											// 	_this.showToast(toast_info)
+											// },60000)
+											_this.bluShow = true
 											
 										},
 										success() {
+											
+											var toast_info = {
+												'title': '设备自动连接成功',
+												'type': 'success',
+											}
+											_this.showToast(toast_info)
+											
 											//获取所有服务
 											setTimeout(() => {
 												uni.getBLEDeviceServices({
@@ -507,13 +553,18 @@
 				// 该方法回调中可以用于处理连接意外断开等异常情况
 				console.log('蓝牙:' + res.deviceId + '连接状态:' + res.connected)
 				uni.setStorageSync('ble_link', res);
-				var toast_info = {
-					'title': '蓝牙已断开,请重新连接',
-					'type': 'sucess',
-					'url': '/pages/mine/bluetooth/bluetoothFind'
-				}
+				// var toast_info = {
+				// 	'title': '蓝牙已断开,请重新连接',
+				// 	'type': 'sucess',
+				// 	'url': '/pages/mine/bluetooth/bluetoothFind'
+				// }
+				
 				if(res.connected == false){
-					_this.showToast(toast_info)
+					// _this.showToast(toast_info)
+					_this.bluShow = true
+					_this.ble_type = '未连接'
+				}else{
+					_this.ble_type = '已连接'
 				}
 				
 			
@@ -525,14 +576,15 @@
 			// })
 			
 			//蓝牙开关状态监听
-			// uni.onBluetoothAdapterStateChange(function(res) {
-			// 	uni.setStorageSync('ava',res.available)
-			// 	if (res.available == true) {
-			// 		_this.popubShow = false
-			// 	} else {
-			// 		_this.popubShow = true
-			// 	}
-			// })
+			uni.onBluetoothAdapterStateChange(function(res) {
+				uni.setStorageSync('ava',res.available)
+				if (res.available == true) {
+					_this.popubShow = false
+				} else {
+					_this.ble_type = '未连接'
+					_this.popubShow = true
+				}
+			})
 		},
 		onLoad: function() {
 			var _this = this
@@ -571,7 +623,7 @@
 	_this.shidu = _this.historyData[0].humidity
 	
 	//往统计图中放数据
-	for(var i = 0;i<5;i++){
+	for(var i = 0;i<20;i++){
 	  _this.chartData.categories.push('')
 	  _this.chartData.series[0].data.push(_this.historyData[i].leftArmpit)
 	  _this.chartData.series[1].data.push(_this.historyData[i].rightArmpit)
@@ -603,6 +655,7 @@
 			  height:300px;
 			}
 		}
+		
 		.topTj {
 			margin-top: 20upx;
 			margin-left: 25%;
@@ -632,6 +685,7 @@
 			.changeColor1 {
 				background-color: #55aaff;
 			}
+			
 		}
 	}
 
