@@ -3,7 +3,7 @@
 		<view id="main">
 			
 			<view>
-					<u-modal v-model="bluShow" :content="content" :async-close="true" @confirm="open()" show-cancel-button=true></u-modal>
+					<u-modal v-model="bluShow" :content="content" :async-close="true" @confirm="open()" :show-cancel-button="true"></u-modal>
 				
 				</view>
 				
@@ -192,6 +192,7 @@
 			}
 		},
 		methods: {
+			
 			to_blue(){
 				if(this.ble_type == '未连接'){
 					uni.navigateTo({
