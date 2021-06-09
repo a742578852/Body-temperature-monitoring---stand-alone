@@ -7,8 +7,8 @@
 				</view>
 			</view>
 		<view class="btn">
-			<u-button type="primary" @click='show2 = true'>{{dcsj}}</u-button>
-			<u-button type="primary" @click='show1 = true'>{{qksj}}</u-button>
+			<u-button type="primary" @click='show2 = true' style='background-color: #4a5cd0;'>{{dcsj}}</u-button>
+			<u-button type="primary" @click='show1 = true' style='background-color: #4a5cd0;'>{{qksj}}</u-button>
 		</view>
 
 		<u-modal v-model="show1" :content="content" :mask-close-able="true" @confirm="confirm"></u-modal>
@@ -36,8 +36,8 @@
 			</view>
 		</scroll-view>
 		<view class="" style="width: 80%; display: flex;justify-content: space-between">
-			<button type="default" @click="up" >上一页</button>
-			<button type="default" @click="next">下一页</button>
+			<u-button type="primary" @click="up" style='background-color: #4a5cd0;margin-top: 10upx;margin-bottom: 10upx;'>上一页</u-button>
+			<u-button type="primary" @click="next" style='background-color: #4a5cd0;margin-top: 10upx;margin-bottom: 10upx;'>下一页</u-button>
 		</view>
 		
 		 <view>
@@ -512,7 +512,7 @@
 					// padding: 10 0;
 					.table-item {
 						text-align: center;
-						border: 1upx solid #b1f1ef;
+						border: 1upx solid #4a5cd0;
 						display: inline-block;
 						width: 24%;
 					}
@@ -522,7 +522,7 @@
 					width: 192%;
 					justify-content: space-between;
 					.table-data-item {
-						border: 1upx solid #b1f1ef;
+						border: 1upx solid #4a5cd0;
 						text-align: center;
 						width: 100%;
 					}

@@ -42,11 +42,11 @@
 			<text>{{name}}</text>
 			<view class="div2">
 				<view class="div3" @click="shishi">
-					<image class="img" src="../../static/shishi.png"></image>
+					<image class="img" src="../../static/shishi1.png"></image>
 					<text>{{sssj}}</text>
 				</view>
 				<view class="div4" @click="lishi">
-					<image class="img" src="../../static/lishi.png"></image>
+					<image class="img" src="../../static/lishi1.png"></image>
 					<text>{{lssj}}</text>
 				</view>
 			</view>
@@ -148,7 +148,7 @@
 				cjpl: '采集频率',
 				wddw: '温度单位',
 				tzdw: '体重单位',
-				sgdw: 'cm',
+				sgdw: '厘米',
 				rlzh: '日历转换',
 				yyzh: '语言转换',
 				index: 0,
@@ -157,7 +157,7 @@
 				index3: 0,
 				index4: 0,
 				arrayTzdw: ['千克', '磅'],
-				arrayCjpl: ['10s', '50s','100s','500s','1000s','3000s'],//采集频率
+				arrayCjpl: ['10秒', '50秒','100秒','500秒','1000秒','3000秒'],//采集频率
 				arrayWddw: ['摄氏度', '华氏度'],
 				arrayRl: ['阳历', '农历'],
 				arrayYy: ['中文', 'English'],

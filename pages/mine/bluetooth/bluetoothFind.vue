@@ -24,8 +24,8 @@
 		</div>
 		
 		<!--体温计图片-->
-		<view style="width: 50%;margin-left: 45%;margin-top: -260rpx;">
-			<image src="../../../static/tiwenji.png" style="width: 120upx;height: 270upx;"></image>
+		<view style="width: 50%;margin-left: 40%;margin-top: -230rpx;">
+			<image src="../../../static/lanya.png" style="width: 200upx;height: 200upx;"></image>
 		</view>
 		
 		<!--可用设备-->
@@ -49,7 +49,7 @@
 		<!--按钮-->
 		<view>
 			<u-button @click="bluetoothIsOpen()" shape="circle" size="default"
-				style="color: #F37B1D;width: 500upx;margin-bottom: 30rpx;">
+				style="color: #FFFFFF;width: 500upx;margin-bottom: 30rpx;background-color: #4a5cd0;">
 				{{binding}}
 			</u-button>
 		</view>

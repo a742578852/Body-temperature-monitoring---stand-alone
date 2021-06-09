@@ -24,12 +24,12 @@
 				swiperList: [{
 						index: 0,
 						text: '早上醒来',
-						img: '../../static/zaoshangxinglai.png'
+						img: '../../static/zsxl.png'
 					},
 					{
 						index: 1,
 						text: '便后',
-						img: '../../static/bianhou.png'
+						img: '../../static/dxbqh.png'
 					},
 					{
 						index: 2,
@@ -59,12 +59,12 @@
 					{
 						index: 7,
 						text: '上肢运动',
-						img: '../../static/shangzhiyundong.png'
+						img: '../../static/szyd.png'
 					},
 					{
 						index: 8,
 						text: '上下肢运动',
-						img: '../../static/shangxiazhiyundong.png'
+						img: '../../static/sxzyd.png'
 					},
 					{
 						index: 9,
@@ -134,7 +134,7 @@
 		border-radius: 30upx;
 		text-align: center;
 		line-height: 80upx;
-		background-color: #8aecff;
-		color: #1606ff;
+		background-color: #4a5cd0;
+		color: #fff;
 	}
 </style>

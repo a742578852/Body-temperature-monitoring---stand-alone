@@ -9,7 +9,7 @@
 		<view class="cu-form-group">
 			<view class="title">{{xm}}:</view>
 			<input name="input" v-model="name" maxlength="20"></input>
-			<u-icon name="arrow-right"></u-icon>
+			<!-- <u-icon name="arrow-right"></u-icon> -->
 		</view>
 		<view class="cu-form-group">
 			<view class="title">{{xb}}:</view>
@@ -21,65 +21,65 @@
 		<view class="cu-form-group">
 			<view class="title">{{nl}}:</view>
 			<input name="input" v-model="age" type="number"></input>
-			<u-icon name="arrow-right"></u-icon>
+			<!-- <u-icon name="arrow-right"></u-icon> -->
 		</view>
 		<view class="cu-form-group">
 			<view class="title">{{sg}}:</view>
-			<input name="input" v-model="height" type="number">cm</input>
-			<u-icon name="arrow-right"></u-icon>
+			<input name="input" v-model="height" type="number">厘米</input>
+			<!-- <u-icon name="arrow-right"></u-icon> -->
 		</view>
 		<view class="cu-form-group">
 			<view class="title">{{tz}}:</view>
-			<input name="input" v-model="weight" type="number">kg</input>
-			<u-icon name="arrow-right"></u-icon>
+			<input name="input" v-model="weight" type="number">千克</input>
+			<!-- <u-icon name="arrow-right"></u-icon> -->
 		</view>
 		<view class="cu-form-group">
 			<view class="title">{{yw}}:</view>
-			<input name="input" v-model="waist" type="number">cm</input>
-			<u-icon name="arrow-right"></u-icon>
+			<input name="input" v-model="waist" type="number">厘米</input>
+			<!-- <u-icon name="arrow-right"></u-icon> -->
 		</view>
 		<view class="cu-form-group">
 			<view class="title">{{dh}}:</view>
 			<input name="input" v-model="phone" type="number"></input>
-			<u-icon name="arrow-right"></u-icon>
+			<!-- <u-icon name="arrow-right"></u-icon> -->
 		</view>
 		<view class="cu-form-group">
 			<view class="title">{{yx}}:</view>
 			<input name="input" v-model="mail" @blur="checkEmail(mail)"></input>
-			<u-icon name="arrow-right"></u-icon>
+			<!-- <u-icon name="arrow-right"></u-icon> -->
 		</view>
 		<view class="cu-form-group">
 			<view class="title">{{mz}}:</view>
 			<input name="input" v-model="nation" type="text"></input>
-			<u-icon name="arrow-right"></u-icon>
+			<!-- <u-icon name="arrow-right"></u-icon> -->
 		</view>
 		<view class="cu-form-group">
 			<view class="title">{{zz}}:</view>
 			<input name="input" v-model="address"></input>
-			<u-icon name="arrow-right"></u-icon>
+			<!-- <u-icon name="arrow-right"></u-icon> -->
 		</view>
 		<view class="cu-form-group">
 			<view class="title">{{lxr}}:</view>
 			<input name="input" v-model="contacts"  type="text"></input>
-			<u-icon name="arrow-right"></u-icon>
+			<!-- <u-icon name="arrow-right"></u-icon> -->
 		</view>
 		<view class="cu-form-group">
 			<view class="title">{{lxrdh}}:</view>
 			<input name="input" v-model="contactsphone"  type="number"></input>
-			<u-icon name="arrow-right"></u-icon>
+			<!-- <u-icon name="arrow-right"></u-icon> -->
 		</view>
 		<view class="cu-form-group">
 			<view class="title">{{gms}}:</view>
 			<input name="input" v-model="allergy" ></input>
-			<u-icon name="arrow-right"></u-icon>
+			<!-- <u-icon name="arrow-right"></u-icon> -->
 		</view>
 		<view class="cu-form-group">
 			<view class="title">{{jbzd}}:</view>
 			<input name="input" v-model="diagnosis" ></input>
-			<u-icon name="arrow-right"></u-icon>
+			<!-- <u-icon name="arrow-right"></u-icon> -->
 		</view>
 		<!-- <button type="primary" @click='btn' :disabled="false">保存</button> -->
-		<button type="default" @click="btn" style="background-color: #FBBD08;"  >{{bc}}</button>
+		<button type="default" @click="btn" style="background-color: #4a5cd0;"  >{{bc}}</button>
 		<!-- <view style="text-align: center;height: 50upx;">
 			<u-radio-group>
 				<u-radio @change="radioChange" name='1'></u-radio>

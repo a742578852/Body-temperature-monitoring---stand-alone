@@ -58,6 +58,7 @@
 					</view>
 				</view>
 			</view>
+			
 			<!--温差-->
 			<view style="display: flex;">
 				<view>
@@ -71,7 +72,10 @@
 			</view>
 			
 			</view>
-		
+		<!--返回监控按钮-->
+		<view >
+			<u-button @click="resType" shape="circle" size="medium"  :ripple="true" style="background-color:#4a5cd0 ;color: #FFFFFF;width: 80%;margin-left: 10%;margin-top: 20upx;">选择状态</u-button>
+		</view>
 
 		<!--蓝牙连接提醒-->
 		<view>
@@ -108,13 +112,6 @@
 			  </view>
 		</view>
 		
-		
-		
-		
-		<!--返回监控按钮-->
-		<view >
-			<u-button @click="resType" shape="circle" size="medium"  :ripple="true" style="background-color:#4a5cd0 ;color: #FFFFFF;width: 80%;margin-left: 10%;margin-bottom: 50upx;">选择状态</u-button>
-		</view>
 
 	</view>
 </template>
@@ -683,7 +680,7 @@
 				height: 70upx;
 				width: 120upx;
 				line-height: 70upx;
-				border: 1upx solid #55aaff;
+				border: 1upx solid #4a5cd0;
 				border-radius: 20upx;
 				background-color: #ffffff;
 				
@@ -693,12 +690,13 @@
 				height: 70upx;
 				width: 120upx;
 				line-height: 70upx;
-				border: 1upx solid #55aaff;
+				border: 1upx solid #4a5cd0;
 				border-radius: 20upx;
 				background-color: #ffffff;
 			}
 			.changeColor1 {
-				background-color: #55aaff;
+				background-color: #4a5cd0;
+				color: #ffffff;
 			}
 		}
 	}

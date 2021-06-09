@@ -2584,6 +2584,7 @@ swiper.round-dot .uni-swiper-dot.uni-swiper-dot-active {
 .swiper-item video {
 	width: 100%;
 	display: block;
+	display: flex;
 	height: 100%;
 	margin: 0;
 	pointer-events: none;

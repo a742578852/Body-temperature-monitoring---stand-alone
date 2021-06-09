@@ -6,9 +6,9 @@
 		>
 			<swiper-item style="width: 100%;height: 360upx;">
 				<view class="swiper-item" >
-					<view class="swiper-item-view" v-for="(item, index) in swiperList" :key="index" @click="clickItem(item)" :class="{changeColor1: index==current,changeColor:index==8}">
-						<image class="swiper-img" :src="item.img" ></image>
-						<text class="text" style="" :class="{changeColor:index==8}">{{ item.text }}</text>
+					<view class="swiper-item-view" v-for="(item, index) in swiperList" :key="index" @click="clickItem(item)" >
+						<image class="swiper-img" :src="item.img" :class="{changeColor1: index==current}"></image>
+						<text class="text" style="" :class="{changeColor:index==8 || index == 7 || index == 0}">{{ item.text }}</text>
 					</view>
 				</view>
 			</swiper-item>
@@ -72,20 +72,26 @@ export default {
 	align-items: center;
 	width: 23.8%;
 	height: 220upx;
-	border: 1upx solid #000000;
-	border-radius: 10upx;
-	background-color: #ffffff;
+	
+	.swiper-img {
+		width: 120upx;
+		height: 120upx;
+		border: 1upx solid #cfcfcf;
+		border-radius: 20upx;
+		// background-color: #ffffff;
+		padding: 20upx;
+	}
 	.text {
-		font-weight: 800;
+		// font-weight: 800;
 		font-size: 38upx;
 	}
 	.changeColor {
 		/* background-color: #fffcc9; */
-		font-size: 30upx;
+		font-size: 32upx;
 	}
 }
 .changeColor1 {
-		background-color: #8aecff;
+		background-color: #4a5cd0;
 	}
 .swiper-img {
 	width: 110upx;
